@@ -22,7 +22,7 @@ const FRAMES = path.resolve(args.frames || path.join(require('os').tmpdir(), 'ru
   const probe = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
   await probe.goto(url);
   await probe.waitForFunction(() => window.__ready === true);
-  const duration = await probe.evaluate(() => window.DURATION);
+  const [duration, audioEnd] = await probe.evaluate(() => [window.DURATION, window.AUDIO_END || window.DURATION]);
   await probe.close();
   const total = Math.round(duration * FPS);
   console.log(`duration ${duration}s -> ${total} frames @${FPS}fps, ${WORKERS} workers`);
@@ -47,6 +47,6 @@ const FRAMES = path.resolve(args.frames || path.join(require('os').tmpdir(), 'ru
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(FPS), '-i', path.join(FRAMES, 'f_%05d.jpg'),
     '-i', AUDIO, '-map', '0:v', '-map', '1:a',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-movflags', '+faststart',
-    '-c:a', 'aac', '-b:a', '192k', '-ar', '44100', '-t', String(total / FPS), OUT], { stdio: 'inherit' });
+    '-af', `afade=t=out:st=${(audioEnd - 0.12).toFixed(2)}:d=0.12,apad`, '-c:a', 'aac', '-b:a', '192k', '-ar', '44100', '-t', String(total / FPS), OUT], { stdio: 'inherit' });
   console.log('wrote', OUT);
 })();

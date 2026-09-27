@@ -1,6 +1,6 @@
 # Rumus Doa Dikabulkan — Animated Video
 
-Video animasi vertikal (1080×1920, 30 fps, 39 detik) dari potongan kajian
+Video animasi vertikal (1080×1920, 30 fps, 34,4 detik) dari potongan kajian
 **Ustadz Reyza Zamzamy**. Suaranya diambil dari video asli, sedangkan semua
 visualnya dibuat ulang sebagai animasi. Palet warna, ornamen, dan tata letak
 credit (**@jejakiman.ku**) sama dengan video *Doa Perlindungan untuk Anak*.
@@ -54,7 +54,10 @@ Sabda Nabi ﷺ tentang zikir ini (HR. Abu Dawud no. 1493):
 | 0:15–0:18 | Sebelum meminta apa pun: langkah **1 Zikir** → **2 Doa** |
 | 0:18–0:29 | Kartu zikir: 4 baris Arab menyala sesuai bacaan Ustadz, lengkap dengan arti & sumber |
 | 0:29–0:34 | Tasbih selesai ✓ → tangan berdoa, cahaya naik membawa hajat → آمِين, *semoga Allah mengabulkannya* |
-| 0:34–0:39 | Share, komen “DOA”, teks Arab + artinya dikirim ke DM |
+
+Video berakhir tepat setelah Ustadz mengucapkan *“semoga Allah mengabulkannya”* (audio
+dipotong di 33,62 detik, frame terakhir ditahan sampai 34,4 detik). Ajakan share/komen di
+akhir video asli tidak dipakai.
 
 Subtitle tampil kata per kata sesuai ucapan Ustadz. Kata yang sedang diucapkan
 berwarna emas. Frasa dan teksnya diambil dari caption video asli (dicek ulang dengan

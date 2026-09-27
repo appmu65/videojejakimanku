@@ -454,7 +454,9 @@ function growLines(box, t, t0, t1) {
 }
 
 /* ======================= DATA ======================= */
-const DURATION = 39.0;
+const DURATION = 34.4;
+/* the audio ends right after "…semoga Allah mengabulkannya"; the last frame holds */
+const AUDIO_END = 33.62;
 
 /* Subtitles: text from the source video's burned-in captions (checked with Whisper
    large-v3). Word starts: each phrase was transcribed up to every pause in the audio
@@ -487,18 +489,13 @@ const SUBS = [
   { a: 28.65, b: 30.38, w: [['Nah,', 28.71], ['setelah', 29.05], ['membaca', 29.69], ['zikir', 29.82, 1], ['tadi,', 30.22]] },
   { a: 30.38, b: 31.49, w: [['baru', 30.44], ['langsung', 30.80], ['panjatkan', 30.90, 1]] },
   { a: 31.49, b: 32.22, w: [['doa-doa', 31.55, 1], ['dan', 31.78], ['hajat', 31.90, 1], ['kita.', 32.05]] },
-  { a: 32.22, b: 33.58, w: [['Semoga', 32.28], ['Allah', 32.75, 1], ['mengabulkannya.', 32.88, 1]] },
-  { a: 33.58, b: 34.78, w: [['Share', 33.64, 1], ['sebanyak-banyaknya.', 34.14]] },
-  { a: 34.78, b: 35.73, w: [['Komen', 34.84], ['“doa”,', 35.15, 1]] },
-  { a: 35.73, b: 37.48, w: [['nanti', 35.79], ['aku', 35.87], ['kirim', 36.18], ['teks', 36.74, 1], ['lengkapnya,', 36.85]] },
-  { a: 37.48, b: 38.21, w: [['Arab', 37.54, 1], ['dan', 37.70], ['artinya', 37.87, 1]] },
-  { a: 38.21, b: 39.00, w: [['langsung', 38.27], ['ke', 38.60], ['DM', 38.72, 1], ['kamu.', 38.83]] },
+  { a: 32.22, b: 34.40, w: [['Semoga', 32.28], ['Allah', 32.75, 1], ['mengabulkannya.', 32.88, 1]] },
 ];
 
 /* Scene windows [in, out] (seconds) */
 const SC = {
   hook: [0, 3.55], rumus: [3.05, 6.62], nabi: [6.2, 9.6], hadis: [9.2, 16.05],
-  step1: [15.55, 18.35], zikir: [17.85, 29.0], step2: [28.6, 34.0], cta: [33.55, 39.0],
+  step1: [15.55, 18.35], zikir: [17.85, 29.0], step2: [28.6, 99], cta: [99, 99],
 };
 
 /* Key moments (word starts) used by the scene animations */
@@ -1052,7 +1049,7 @@ function renderAt(t) {
   /* credit */
   anim($('pill-speaker'), t, 0.05, { dur: 0.7, dy: -30, blur: 6 });
   anim($('pill-credit'), t, 0.25, { dur: 0.7, dy: -20, blur: 6 });
-  const endGlow = prog(t, 38.2, 38.8);
+  const endGlow = prog(t, 33.6, 34.1);
   $('pill-credit').style.boxShadow = `0 10px 30px rgba(0,0,0,0.35), 0 0 ${(28 * endGlow).toFixed(1)}px rgba(240, 196, 110, ${(0.55 * endGlow).toFixed(3)})`;
   $('pill-credit').style.borderColor = `rgba(214, 178, 106, ${(0.48 + 0.4 * endGlow).toFixed(3)})`;
 
@@ -1064,11 +1061,10 @@ function renderAt(t) {
   else if (t < 16.0) { ry = 330; rop = E.outCubic(prog(t, 9.4, 10.0)) * (1 - prog(t, 15.6, 16.0)) * 0.5; }
   else if (t < 18.3) { rx = 310; ry = 900; rop = E.outCubic(prog(t, K.baca, K.baca + 0.5)) * (1 - prog(t, 17.8, 18.2)) * 0.75; }
   else if (t < 29) { ry = 330; rop = E.outCubic(prog(t, 18.1, 18.8)) * (1 - prog(t, 28.5, 28.9)) * 0.5; }
-  else if (t < 34) {
+  else {
     const am = E.inOutCubic(prog(t, K.semoga, K.semoga + 0.5));
-    ry = lerp(1200, 560, am); rop = (E.outCubic(prog(t, 29.2, 30.0)) * 0.6 + 0.35 * am) * (1 - prog(t, 33.5, 33.9));
+    ry = lerp(1200, 560, am); rop = E.outCubic(prog(t, 29.2, 30.0)) * 0.6 + 0.35 * am;
   }
-  else { ry = 430; rop = E.outCubic(prog(t, 33.8, 34.4)) * 0.45 * (1 - prog(t, 34.7, 35.2)) + 0.4 * bump(t, K.dm + 0.35, K.dm + 0.73); rx = lerp(540, 850, prog(t, 35, 35.1)); if (t > 35) ry = 1100; }
   setRays(t, rx, ry, rop);
 
   /* ---------- 1. HOOK ---------- */
@@ -1187,7 +1183,6 @@ function renderAt(t) {
 
   /* ---------- 7. STEP 2 ---------- */
   if (sceneVisible('step2', t)) {
-    sceneFade('step2', t, 33.55, 0.4);
     anim($('s2-kick'), t, K.setelah, { dur: 0.55, dy: -20, blur: 6 });
     // "setelah membaca zikir tadi": finished tasbih with a check, gives way to the title
     anim($('s2-zk'), t, K.setelah + 0.15, { dur: 0.7, dy: 0, blur: 8, s0: 0.4, ease: E.outBack, out: K.panjatkan - 0.3, odur: 0.35, dyOut: -40 });
@@ -1209,10 +1204,10 @@ function renderAt(t) {
     S2HANDS.setAttribute('opacity', hp.toFixed(3));
     S2HANDS.querySelector('.hglow').setAttribute('opacity', (0.5 + 0.3 * Math.sin(t * 2.4) + 0.4 * prog(t, K.panjatkan, K.panjatkan + 0.5)).toFixed(3));
     const beam = E.outCubic(prog(t, K.panjatkan - 0.2, K.panjatkan + 0.6)) * (1 - 0.4 * amin);
-    fxb.save(); fxb.globalAlpha = 1 - E.inCubic(prog(t, 33.55, 33.95));
+    fxb.save();
     drawBeam(fxb, t, beam);
     fxb.restore();
-    fx.save(); fx.globalAlpha = 1 - E.inCubic(prog(t, 33.55, 33.95));
+    fx.save();
     drawOrbs(fx, t);
     drawBurst(fx, t, K.semoga + 0.6, 540, 560, BURST_AMIN, 60);
     fx.restore();
@@ -1264,6 +1259,7 @@ function renderAt(t) {
 
 window.renderAt = renderAt;
 window.DURATION = DURATION;
+window.AUDIO_END = AUDIO_END;
 (async () => {
   await document.fonts.load("700 40px Poppins"); await document.fonts.load("900 40px Poppins"); await document.fonts.load("800 40px Poppins");
   await document.fonts.load("600 40px Poppins"); await document.fonts.load("500 40px Poppins");
