@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Rumus Doa Dikabulkan</title>
+<style>
+@font-face { font-family: 'Poppins'; src: url(assets/fonts/Poppins-Medium.ttf); font-weight: 500; }
+@font-face { font-family: 'Poppins'; src: url(assets/fonts/Poppins-SemiBold.ttf); font-weight: 600; }
+@font-face { font-family: 'Poppins'; src: url(assets/fonts/Poppins-Bold.ttf); font-weight: 700; }
+@font-face { font-family: 'Poppins'; src: url(assets/fonts/Poppins-ExtraBold.ttf); font-weight: 800; }
+@font-face { font-family: 'Poppins'; src: url(assets/fonts/Poppins-Black.ttf); font-weight: 900; }
+@font-face { font-family: 'Amiri'; src: url(assets/fonts/Amiri-Regular.ttf); font-weight: 400; }
+@font-face { font-family: 'Amiri'; src: url(assets/fonts/Amiri-Bold.ttf); font-weight: 700; }
+@font-face { font-family: 'Aref Ruqaa'; src: url(assets/fonts/ArefRuqaa-Regular.ttf); font-weight: 400; }
+@font-face { font-family: 'Aref Ruqaa'; src: url(assets/fonts/ArefRuqaa-Bold.ttf); font-weight: 700; }
+
+:root {
+  --gold-hi: #fbe6ad;
+  --gold: #f3cf85;
+  --gold-mid: #e6b562;
+  --gold-deep: #b9853a;
+  --cream: #fcf3de;
+  --teal-900: #041318;
+  --teal-800: #0a2429;
+  --teal-700: #10343a;
+  --line: rgba(214, 178, 106, 0.75);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #000; }
+#stage {
+  position: relative; width: 1080px; height: 1920px; overflow: hidden;
+  font-family: 'Poppins', sans-serif; color: var(--cream);
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 46%, rgba(52, 96, 92, 0.55), rgba(52, 96, 92, 0) 70%),
+    linear-gradient(180deg, #020c14 0%, #071c23 18%, #0f2f34 42%, #11353a 55%, #0a2a31 74%, #041419 100%);
+}
+.layer { position: absolute; inset: 0; pointer-events: none; }
+canvas.layer { width: 1080px; height: 1920px; }
+.abs { position: absolute; }
+.cx { position: absolute; left: 0; right: 0; text-align: center; }
+.will { will-change: transform, opacity; }
+
+/* ---------- decorative ---------- */
+#rays {
+  position: absolute; width: 2200px; height: 2200px; left: -560px; top: -340px;
+  background: repeating-conic-gradient(from 0deg, rgba(247, 216, 142, 0.16) 0deg 3deg, rgba(247, 216, 142, 0) 3deg 12deg);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 16%, rgba(0,0,0,0) 38%);
+  mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 16%, rgba(0,0,0,0) 38%);
+}
+#glowspot {
+  position: absolute; width: 900px; height: 900px; left: 90px; top: 330px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(246, 205, 120, 0.22) 0%, rgba(246, 205, 120, 0.06) 40%, rgba(246, 205, 120, 0) 70%);
+}
+#vignette {
+  background:
+    radial-gradient(ellipse 85% 70% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 12%);
+}
+#subshade { background: linear-gradient(180deg, rgba(2,10,13,0) 74%, rgba(2,10,13,0.55) 86%, rgba(2,10,13,0.35) 100%); }
+
+/* ---------- credit (same layout as the reference) ---------- */
+#credit { position: absolute; left: 0; right: 0; top: 0; height: 260px; }
+.pill {
+  position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; display: flex; align-items: center; white-space: nowrap;
+  border-radius: 999px; background: rgba(5, 16, 20, 0.72);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+#pill-speaker { top: 72px; height: 84px; padding: 0 36px 0 13px; border: 2px solid rgba(214, 178, 106, 0.78); }
+#pill-speaker .mic {
+  width: 58px; height: 58px; border-radius: 50%; margin-right: 20px; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fbe3a3 0%, #eec36f 45%, #c99443 100%);
+  box-shadow: 0 0 18px rgba(240, 196, 110, 0.45);
+}
+#pill-speaker .name { font-weight: 600; font-size: 33px; letter-spacing: 0.4px; color: #fbf4e4; }
+#pill-credit { top: 180px; height: 56px; padding: 0 28px; border: 1.5px solid rgba(214, 178, 106, 0.48); background: rgba(5, 16, 20, 0.6); }
+#pill-credit .lbl { font-weight: 600; font-size: 18px; letter-spacing: 5px; color: #e4c07a; }
+#pill-credit .dot { width: 8px; height: 8px; border-radius: 50%; background: #e4c07a; margin: 0 16px 0 12px; transform: rotate(45deg); border-radius: 1px; }
+#pill-credit .handle { font-weight: 700; font-size: 28px; color: #fcf3de; letter-spacing: 0.2px; }
+
+/* ---------- text styles ---------- */
+.gold-text {
+  background: linear-gradient(180deg, #fff0c4 0%, #f6d48d 38%, #e7b765 70%, #c98f42 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.gold-flat { color: var(--gold); }
+.ar { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: isolate; }
+.ruqaa { font-family: 'Aref Ruqaa', 'Amiri', serif; direction: rtl; unicode-bidi: isolate; }
+.saw { font-family: 'Amiri', serif; display: inline-block; margin: 0 0.22em; line-height: 1; }
+.glow-gold { filter: drop-shadow(0 0 18px rgba(240, 190, 100, 0.45)) drop-shadow(0 6px 14px rgba(0,0,0,0.45)); }
+
+.kicker { display: flex; align-items: center; justify-content: center; gap: 26px; }
+.kicker .ln { height: 2px; width: 150px; background: linear-gradient(90deg, rgba(230,184,100,0), rgba(230,184,100,0.9)); }
+.kicker .ln.r { background: linear-gradient(90deg, rgba(230,184,100,0.9), rgba(230,184,100,0)); }
+.kicker .tx { font-weight: 600; letter-spacing: 16px; margin-right: -16px; color: var(--gold); }
+
+.divider { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.divider .ln { height: 2px; width: 190px; background: linear-gradient(90deg, rgba(230,184,100,0), rgba(230,184,100,0.85)); }
+.divider .ln.r { background: linear-gradient(90deg, rgba(230,184,100,0.85), rgba(230,184,100,0)); }
+.divider .dm { width: 18px; height: 18px; transform: rotate(45deg); background: linear-gradient(135deg, #fde7ae, #d9a04d); box-shadow: 0 0 16px rgba(245, 200, 110, 0.9); }
+
+/* ---------- cards ---------- */
+.card {
+  position: absolute; border-radius: 38px; border: 2px solid rgba(214, 178, 106, 0.55);
+  background: linear-gradient(180deg, rgba(10, 34, 40, 0.78), rgba(4, 18, 23, 0.82));
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255, 235, 190, 0.06), inset 0 0 60px rgba(214, 178, 106, 0.05);
+}
+.card .corner { position: absolute; width: 16px; height: 16px; transform: rotate(45deg); background: linear-gradient(135deg, #fde7ae, #cf9848); box-shadow: 0 0 12px rgba(245,200,110,.8); }
+.card .corner.tl { left: -9px; top: -9px; } .card .corner.tr { right: -9px; top: -9px; }
+.card .corner.bl { left: -9px; bottom: -9px; } .card .corner.br { right: -9px; bottom: -9px; }
+
+.doa-block { position: absolute; left: 40px; right: 40px; text-align: center; }
+.doa-ar { font-family: 'Amiri', serif; font-weight: 700; font-size: 66px; line-height: 1.7; direction: rtl; white-space: nowrap; }
+.doa-bar { position: relative; height: 4px; margin: 0 auto; width: 70%; border-radius: 4px; background: rgba(214, 178, 106, 0.15); overflow: hidden; }
+.doa-bar i { position: absolute; top: 0; bottom: 0; right: 0; width: 0; border-radius: 4px; background: linear-gradient(270deg, #fbe3a3, #e0a950); box-shadow: 0 0 12px rgba(246, 200, 110, 0.9); }
+.doa-id { font-weight: 500; font-size: 28px; line-height: 1.42; color: rgba(252, 243, 222, 0.86); margin-top: 12px; }
+
+.medal { position: absolute; }
+.medal svg { position: absolute; inset: 0; overflow: visible; }
+.medal .nm { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-54%); text-align: center; font-family: 'Aref Ruqaa', 'Amiri', serif; font-weight: 700; direction: rtl; white-space: nowrap; }
+.mlabel { position: absolute; text-align: center; white-space: nowrap; }
+.mlabel b { display: block; font-weight: 700; color: var(--cream); }
+.mlabel small { display: block; font-weight: 500; color: var(--gold); letter-spacing: 0.5px; }
+
+.arch { position: absolute; }
+.arch svg { position: absolute; inset: 0; overflow: visible; }
+
+.stamp {
+  position: absolute; left: 0; right: 0; margin: 0 auto; width: max-content; display: flex; align-items: center; gap: 14px;
+  height: 64px; padding: 0 30px 0 12px; border-radius: 999px; white-space: nowrap;
+  border: 2px solid rgba(240, 200, 120, 0.9); background: linear-gradient(180deg, rgba(40, 60, 50, 0.6), rgba(10, 30, 32, 0.8));
+  box-shadow: 0 0 26px rgba(240, 196, 110, 0.35);
+}
+.stamp .ck { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #fbe3a3 0%, #eec36f 45%, #c99443 100%); }
+.stamp .tx { font-weight: 800; font-size: 30px; letter-spacing: 4px; color: var(--cream); }
+
+.iconball {
+  position: absolute; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fbe3a3 0%, #eec36f 45%, #c99443 100%);
+  box-shadow: 0 0 40px rgba(240, 196, 110, 0.45), 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* ---------- subtitles ---------- */
+#subs { position: absolute; left: 50px; right: 50px; top: 1560px; height: 200px; display: flex; align-items: center; justify-content: center; }
+.subline { text-align: center; font-weight: 700; font-size: 59px; line-height: 1.18; letter-spacing: -0.2px; }
+.subline.doa { font-weight: 600; font-size: 54px; }
+.subline .w { display: inline-block; margin: 0 11px; transform-origin: 50% 70%; }
+.w.white { background: linear-gradient(180deg, #ffffff 0%, #f1f1f1 55%, #cfcfd2 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.w.gold { background: linear-gradient(180deg, #fff1c8 0%, #f7d88e 45%, #e3b262 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.w.dim { color: rgba(255,255,255,0.34); }
+#subs .subline { filter: drop-shadow(0 4px 10px rgba(0,0,0,0.75)) drop-shadow(0 0 2px rgba(0,0,0,0.6)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="bg" class="layer" width="1080" height="1920"></canvas>
+  <svg id="pattern" class="layer" width="1080" height="1920"></svg>
+  <div class="layer"><div id="glowspot"></div><div id="rays"></div></div>
+  <svg id="sky" class="layer" width="1080" height="1920"></svg>
+  <svg id="mosque" class="layer" width="1080" height="1920"></svg>
+  <div id="subshade" class="layer"></div>
+  <canvas id="fxb" class="layer" width="1080" height="1920"></canvas>
+
+  <!-- ============ SCENES ============ -->
+  <div id="scenes" class="layer">
+
+    <!-- 1. HOOK -->
+    <div class="layer scene" id="sc-hook">
+      <div class="cx will" id="h-title1" style="top:428px; font-weight:800; font-size:124px; letter-spacing:2px; line-height:1;"></div>
+      <div class="cx will divider" id="h-kick" style="top:584px;"><span class="ln"></span><span class="dm"></span><span class="ln r"></span></div>
+      <div class="cx will" id="h-big-wrap" style="top:622px;">
+        <div id="h-big" class="gold-text fit" data-maxw="990" style="display:inline-block; font-weight:900; font-size:170px; line-height:1.1; letter-spacing:2px; padding:0 14px;">DIKABULKAN</div>
+      </div>
+      <div class="cx will" id="h-ar" style="top:830px;">
+        <span class="ruqaa gold-text" style="font-size:104px; line-height:1.6; display:inline-block; padding:0 30px;">الدُّعَاءُ الْمُسْتَجَابُ</span>
+      </div>
+      <div class="cx will divider" id="h-div" style="top:1044px;"><span class="ln"></span><span class="dm"></span><span class="ln r"></span></div>
+    </div>
+
+    <!-- 2. RUMUS: ZIKIR + DOA -->
+    <div class="layer scene" id="sc-rumus">
+      <div class="cx will kicker" id="r-kick" style="top:352px;">
+        <span class="ln"></span><span class="tx" style="font-size:44px;">RUMUSNYA</span><span class="ln r"></span>
+      </div>
+      <div class="arch will" id="r-left" style="left:48px; top:440px; width:420px; height:660px;">
+        <svg width="420" height="660"></svg>
+        <div class="cx" style="top:354px; font-weight:800; font-size:54px; letter-spacing:3px; color:var(--cream);">ZIKIR</div>
+        <div class="cx ar" style="top:458px; font-weight:700; font-size:68px; line-height:1.3;"><span class="gold-text" style="padding:0 20px;">الذِّكْرُ</span></div>
+        <div class="cx" style="top:560px; font-weight:500; font-size:25px; color:rgba(252,243,222,.75);">bacaan zikir ini</div>
+      </div>
+      <div class="arch will" id="r-right" style="left:612px; top:440px; width:420px; height:660px;">
+        <svg width="420" height="660"></svg>
+        <div class="cx" style="top:354px; font-weight:800; font-size:54px; letter-spacing:3px; color:var(--cream);">DOA KITA</div>
+        <div class="cx ar" style="top:458px; font-weight:700; font-size:68px; line-height:1.3;"><span class="gold-text" style="padding:0 20px;">الدُّعَاءُ</span></div>
+        <div class="cx" style="top:560px; font-weight:500; font-size:25px; color:rgba(252,243,222,.75);">doa permintaan kamu</div>
+      </div>
+      <div class="iconball will" id="r-plus" style="left:484px; top:714px; width:112px; height:112px;">
+        <svg width="54" height="54" viewBox="0 0 54 54"><path d="M27 6v42M6 27h42" stroke="#1d2a26" stroke-width="9" stroke-linecap="round"/></svg>
+      </div>
+      <div class="cx will" id="r-eq" style="top:1150px;">
+        <div style="display:inline-flex; align-items:center; gap:22px; height:96px; padding:0 40px 0 18px; border-radius:999px; border:2px solid rgba(240,200,120,.9); background:rgba(5,16,20,.72); box-shadow:0 0 40px rgba(240,196,110,.35);">
+          <span class="iconball" style="position:relative; width:64px; height:64px;">
+            <svg width="30" height="30" viewBox="0 0 30 30"><path d="M5 10h20M5 20h20" stroke="#1d2a26" stroke-width="5" stroke-linecap="round"/></svg>
+          </span>
+          <span style="font-weight:800; font-size:44px; letter-spacing:2px;">DOA <span class="gold-text">MUDAH DIKABULKAN</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. NABI BERSABDA -->
+    <div class="layer scene" id="sc-nabi">
+      <div class="medal will" id="m-nabi"></div>
+      <div class="mlabel will" id="l-nabi" style="left:190px; width:700px; top:790px;"><b style="font-size:46px;">Nabi Muhammad <span class="saw" style="font-size:50px;">ﷺ</span></b><small style="font-size:26px; letter-spacing:4px; margin-top:6px;">BERSABDA</small></div>
+      <div class="card will" id="n-card" style="left:80px; top:950px; width:920px; height:390px; border-radius:32px;">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <svg id="n-seal" width="170" height="170" style="position:absolute; left:40px; top:110px; overflow:visible;"></svg>
+        <div class="abs" style="left:240px; right:30px; top:52px;">
+          <div class="gold-text" style="display:inline-block; font-weight:900; font-size:66px; line-height:1.15; letter-spacing:2px;">HADIS SHAHIH</div>
+          <div style="font-weight:700; font-size:33px; margin-top:14px; color:var(--cream);">HR. Abu Dawud no. 1493</div>
+          <div style="font-weight:500; font-size:25px; margin-top:8px; color:rgba(252,243,222,.8);">At-Tirmidzi no. 3475 &nbsp;•&nbsp; Ibnu Majah no. 3857</div>
+          <div style="font-weight:600; font-size:24px; margin-top:12px; letter-spacing:.5px; color:var(--gold);">Disahihkan oleh Syaikh Al-Albani</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ISI HADIS -->
+    <div class="layer scene" id="sc-hadis">
+      <div class="cx will" id="hd-head" style="top:352px; font-weight:700; font-size:38px; letter-spacing:6px; color:var(--gold);">SABDA NABI <span class="saw" style="font-size:46px; letter-spacing:0; font-weight:700;">ﷺ</span></div>
+      <div class="card will" id="hd-card" style="left:52px; top:430px; width:976px; height:1070px;">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="doa-block will" id="hd-intro" style="top:30px;">
+          <div class="ar fit" data-maxw="880" style="font-weight:700; font-size:54px; line-height:1.7; white-space:nowrap; color:rgba(252,243,222,.92);">لَقَدْ سَأَلْتَ اللَّهَ بِالِاسْمِ الَّذِي</div>
+          <div class="doa-id" style="margin-top:4px; font-size:27px;">“Sungguh, engkau telah memohon kepada Allah dengan nama-Nya yang…”</div>
+          <div style="font-weight:600; font-size:22px; letter-spacing:3px; margin-top:12px; color:rgba(243,207,133,.85);">AL-ISMUL A‘ZHAM • NAMA ALLAH YANG PALING AGUNG</div>
+        </div>
+        <div class="cx" style="top:292px; display:flex; justify-content:center;"><div style="width:620px; height:2px; background:linear-gradient(90deg, rgba(230,184,100,0), rgba(230,184,100,.6), rgba(230,184,100,0));"></div></div>
+        <div class="doa-block will" id="hd-r1" style="top:312px;">
+          <div class="doa-ar fit" data-maxw="880" style="font-size:80px;">إِذَا سُئِلَ بِهِ أَعْطَى</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id" style="font-size:31px;">apabila Dia diminta dengannya, <b style="color:var(--gold);">Dia memberi</b>,</div>
+        </div>
+        <div class="stamp will" id="hd-s1" style="top:536px;"><span class="ck"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1d2a26" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">NISCAYA DIBERI</span></div>
+        <div class="doa-block will" id="hd-r2" style="top:640px;">
+          <div class="doa-ar fit" data-maxw="880" style="font-size:80px;">وَإِذَا دُعِيَ بِهِ أَجَابَ</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id" style="font-size:31px;">dan apabila Dia diseru dengannya, <b style="color:var(--gold);">Dia mengabulkan</b>.”</div>
+        </div>
+        <div class="stamp will" id="hd-s2" style="top:866px;"><span class="ck"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1d2a26" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">NISCAYA DIKABULKAN</span></div>
+        <div class="cx will" id="hd-ref" style="top:992px; font-weight:500; font-size:23px; letter-spacing:0.6px; color:rgba(243, 207, 133, 0.85);">HR. Abu Dawud no. 1493 &nbsp;•&nbsp; Sahih</div>
+      </div>
+    </div>
+
+    <!-- 5. LANGKAH 1 -->
+    <div class="layer scene" id="sc-step1">
+      <div class="cx will" id="s1-head" style="top:380px; font-weight:600; font-size:34px; letter-spacing:10px; color:var(--gold);">JADI,</div>
+      <div class="cx will" id="s1-title" style="top:436px; font-weight:800; font-size:70px; line-height:1.12; color:var(--cream);">SEBELUM MEMINTA<br><span class="gold-text">APAPUN</span></div>
+      <svg class="layer" id="s1-path" width="1080" height="1920"></svg>
+      <div class="medal will" id="m-s1"></div>
+      <div class="mlabel will" id="l-s1" style="left:130px; width:360px; top:1062px;"><b style="font-size:44px;">ZIKIR</b><small style="font-size:23px;">dibaca lebih dulu</small></div>
+      <div class="medal will" id="m-s2"></div>
+      <div class="mlabel will" id="l-s2" style="left:590px; width:360px; top:1062px;"><b style="font-size:44px;">DOA</b><small style="font-size:23px;">permintaan kita</small></div>
+      <div class="stamp will" id="s1-first" style="top:1210px;"><span class="ck"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1d2a26" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="tx">BACA ZIKIR INI DULU</span></div>
+    </div>
+
+    <!-- 6. ZIKIR -->
+    <div class="layer scene" id="sc-zikir">
+      <div class="cx will" id="z-head" style="top:356px; font-weight:700; font-size:33px; letter-spacing:5px; color:var(--gold);">BACA ZIKIR INI SEBELUM BERDOA</div>
+      <div class="card will" id="z-card" style="left:40px; top:420px; width:1000px; height:1110px;">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="doa-block will" id="z-l1" style="top:22px;">
+          <div class="doa-ar fit" data-maxw="900">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِأَنِّي أَشْهَدُ</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id">“Ya Allah, sesungguhnya aku memohon kepada-Mu dengan persaksianku</div>
+        </div>
+        <div class="doa-block will" id="z-l2" style="top:268px;">
+          <div class="doa-ar fit" data-maxw="900">أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id">bahwa Engkaulah Allah, tiada Tuhan (yang berhak disembah) selain Engkau,</div>
+        </div>
+        <div class="doa-block will" id="z-l3" style="top:514px;">
+          <div class="doa-ar fit" data-maxw="900">الْأَحَدُ الصَّمَدُ، الَّذِي لَمْ يَلِدْ وَلَمْ يُولَدْ</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id">Yang Maha Esa, tempat bergantung segala sesuatu, yang tidak beranak dan tidak diperanakkan,</div>
+        </div>
+        <div class="doa-block will" id="z-l4" style="top:780px;">
+          <div class="doa-ar fit" data-maxw="900">وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ</div>
+          <div class="doa-bar"><i></i></div>
+          <div class="doa-id">dan tidak ada seorang pun yang setara dengan-Nya.”</div>
+        </div>
+        <div class="cx will" id="z-ref" style="top:1020px; font-weight:500; font-size:22px; letter-spacing:0.5px; color:rgba(243, 207, 133, 0.85);">
+          HR. At-Tirmidzi no. 3475 &nbsp;•&nbsp; Abu Dawud no. 1493 &nbsp;•&nbsp; Ibnu Majah no. 3857
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. LANGKAH 2: PANJATKAN DOA -->
+    <div class="layer scene" id="sc-step2">
+      <div class="cx will" id="s2-kick" style="top:352px;">
+        <div style="display:inline-flex; align-items:center; gap:16px; height:60px; padding:0 30px 0 10px; border-radius:999px; border:1.5px solid rgba(214,178,106,.6); background:rgba(5,16,20,.6);">
+          <span class="iconball" style="position:relative; width:42px; height:42px;"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1d2a26" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span style="font-weight:600; font-size:25px; letter-spacing:5px; color:var(--gold);">SETELAH MEMBACA ZIKIR</span>
+        </div>
+      </div>
+      <div class="layer will" id="s2-titles">
+        <div class="cx will" id="s2-t1" style="top:452px; font-weight:800; font-size:98px; letter-spacing:3px; line-height:1;">PANJATKAN</div>
+        <div class="cx will" id="s2-t2" style="top:556px;"><span class="gold-text glow-gold fit" data-maxw="960" style="display:inline-block; font-weight:900; font-size:132px; line-height:1.12; padding:0 12px;">DOA &amp; HAJAT</span></div>
+      </div>
+      <div class="cx will" id="s2-amin" style="top:420px;">
+        <span class="ruqaa gold-text glow-gold" style="font-size:190px; line-height:1.45; display:inline-block; padding:0 40px;">آمِين</span>
+      </div>
+      <div class="cx will" id="s2-semoga" style="top:716px; font-weight:700; font-size:44px; color:var(--cream);">Semoga Allah mengabulkannya</div>
+      <div class="abs will" id="s2-zk" style="left:390px; top:470px; width:300px; height:300px;">
+        <svg width="300" height="300" style="position:absolute; inset:0; overflow:visible;"></svg>
+        <div class="iconball" id="s2-zk-ck" style="left:212px; top:196px; width:78px; height:78px;"><svg width="40" height="40" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#1d2a26" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <svg class="layer" id="s2-hands" width="1080" height="1920"></svg>
+    </div>
+
+    <!-- 8. SHARE / KOMEN -->
+    <div class="layer scene" id="sc-cta">
+      <div class="abs will" id="c-share" style="left:0; right:0; top:352px; display:flex; justify-content:center;">
+        <div style="display:flex; align-items:center; gap:34px;">
+          <div class="iconball" id="c-share-ic" style="position:relative; width:150px; height:150px;">
+            <svg width="78" height="78" viewBox="0 0 24 24" fill="none" stroke="#1d2a26" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3L10.5 13.5"/><path d="M22 3l-7 19-4.5-8.5L2 9z" fill="rgba(29,42,38,.18)"/></svg>
+          </div>
+          <div style="text-align:left;">
+            <div class="gold-text" style="display:inline-block; font-weight:900; font-size:112px; line-height:1.02; letter-spacing:3px;">SHARE</div>
+            <div style="font-weight:700; font-size:33px; letter-spacing:3px; color:var(--cream); margin-top:2px;">SEBANYAK-BANYAKNYA</div>
+          </div>
+        </div>
+      </div>
+      <div class="cx will kicker" id="c-kom-kick" style="top:600px;">
+        <span class="ln"></span><span class="tx" style="font-size:38px;">KOMEN</span><span class="ln r"></span>
+      </div>
+      <div class="abs will" id="c-bubble" style="left:260px; top:664px; width:560px; height:210px;">
+        <svg width="560" height="210" style="position:absolute; inset:0; overflow:visible;">
+          <defs><linearGradient id="bubF" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#12383e"/><stop offset="100%" stop-color="#061a1f"/></linearGradient></defs>
+          <path d="M40,6 H520 Q554,6 554,40 V136 Q554,170 520,170 H150 L96,206 L104,170 H40 Q6,170 6,136 V40 Q6,6 40,6 Z" fill="url(#bubF)" stroke="rgba(240,200,120,.9)" stroke-width="3" style="filter: drop-shadow(0 0 20px rgba(240,196,110,.35))"/>
+        </svg>
+        <div class="abs" style="left:0; right:0; top:26px; text-align:center; font-weight:900; font-size:98px; line-height:1.2; letter-spacing:10px;"><span id="c-typed" class="gold-text">DOA</span><span id="c-caret" style="display:inline-block; width:8px; height:86px; margin-left:4px; background:#f3cf85; vertical-align:-8px;"></span></div>
+      </div>
+      <div class="card will" id="c-doc" style="left:84px; top:960px; width:560px; height:470px; border-radius:30px;">
+        <div class="cx" style="top:26px; font-weight:700; font-size:24px; letter-spacing:5px; color:var(--gold);">TEKS LENGKAPNYA</div>
+        <div class="cx ar" style="top:70px; font-weight:700; font-size:42px; line-height:1.7; color:var(--cream);">اللَّهُمَّ إِنِّي أَسْأَلُكَ…</div>
+        <div class="abs" style="left:60px; right:60px; top:160px;">
+          <div style="height:10px; border-radius:6px; background:rgba(252,243,222,.18); margin-bottom:16px;"></div>
+          <div style="height:10px; border-radius:6px; background:rgba(252,243,222,.18); margin:0 40px 16px;"></div>
+          <div style="height:10px; border-radius:6px; background:rgba(252,243,222,.12); margin:0 70px;"></div>
+        </div>
+        <div class="abs will" id="c-chip1" style="left:60px; top:262px; display:flex; align-items:center; gap:12px; height:66px; padding:0 26px 0 12px; border-radius:999px; border:2px solid rgba(240,200,120,.85); background:rgba(5,16,20,.7);">
+          <span class="iconball" style="position:relative; width:44px; height:44px; font-family:'Amiri',serif; font-weight:700; font-size:30px; color:#1d2a26; line-height:1;">ع</span>
+          <span style="font-weight:800; font-size:28px; letter-spacing:3px;">ARAB</span>
+        </div>
+        <div class="abs will" id="c-chip2" style="left:270px; top:262px; display:flex; align-items:center; gap:12px; height:66px; padding:0 26px 0 12px; border-radius:999px; border:2px solid rgba(240,200,120,.85); background:rgba(5,16,20,.7);">
+          <span class="iconball" style="position:relative; width:44px; height:44px; font-weight:800; font-size:26px; color:#1d2a26;">A</span>
+          <span style="font-weight:800; font-size:28px; letter-spacing:3px;">ARTINYA</span>
+        </div>
+        <div class="cx" style="top:372px; font-weight:500; font-size:23px; color:rgba(252,243,222,.72);">bacaan zikir &amp; terjemahannya</div>
+      </div>
+      <div class="abs will" id="c-dm" style="left:700px; top:1010px; width:300px; height:360px;">
+        <div class="iconball" id="c-dm-ic" style="left:60px; top:30px; width:180px; height:180px;">
+          <svg width="92" height="92" viewBox="0 0 24 24" fill="none" stroke="#1d2a26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v12H8l-5 4z" fill="rgba(29,42,38,.15)"/><path d="M7.5 10h9M7.5 13.2h6"/></svg>
+        </div>
+        <div id="c-badge" style="position:absolute; left:196px; top:26px; width:52px; height:52px; border-radius:50%; background:#e0584a; color:#fff; font-weight:800; font-size:30px; display:grid; place-items:center; border:3px solid #0a2429;">1</div>
+        <div class="cx" style="top:236px; font-weight:900; font-size:62px; letter-spacing:4px;"><span class="gold-text">DM</span></div>
+        <div class="cx" style="top:316px; font-weight:600; font-size:23px; letter-spacing:3px; color:var(--cream);">LANGSUNG</div>
+      </div>
+      <svg class="layer" id="c-plane" width="1080" height="1920"></svg>
+    </div>
+  </div>
+
+  <canvas id="fx" class="layer" width="1080" height="1920"></canvas>
+  <div id="subs"></div>
+  <svg id="lanterns" class="layer" width="1080" height="1920"></svg>
+  <div id="credit">
+    <div class="pill" id="pill-speaker">
+      <div class="mic">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1d2a26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2.5" width="6" height="11.5" rx="3" fill="#1d2a26"/>
+          <path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/><path d="M8.5 21h7"/>
+        </svg>
+      </div>
+      <div class="name">Ustadz Reyza Zamzamy</div>
+    </div>
+    <div class="pill" id="pill-credit"><span class="lbl">CREDIT</span><span class="dot"></span><span class="handle">@jejakiman.ku</span></div>
+  </div>
+  <div id="vignette" class="layer"></div>
+</div>
+
+<script>
+'use strict';
+const SVGNS = 'http://www.w3.org/2000/svg';
+const $ = (id) => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const E = {
+  lin: p => p,
+  outCubic: p => 1 - Math.pow(1 - p, 3),
+  inCubic: p => p * p * p,
+  inOutCubic: p => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
+  outQuint: p => 1 - Math.pow(1 - p, 5),
+  outExpo: p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p),
+  outBack: p => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); },
+  inOutSine: p => -(Math.cos(Math.PI * p) - 1) / 2,
+};
+const bump = (t, a, b) => Math.max(0, Math.sin(Math.PI * prog(t, a, b)));
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function el(tag, attrs = {}, parent) {
+  const e = document.createElementNS(SVGNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function starPoints(cx, cy, R, rot = 0, n = 8, inner = 0.7654) {
+  const pts = [];
+  for (let k = 0; k < n * 2; k++) {
+    const r = k % 2 === 0 ? R : R * inner;
+    const a = rot + k * Math.PI / n - Math.PI / 2;
+    pts.push((cx + r * Math.cos(a)).toFixed(2) + ',' + (cy + r * Math.sin(a)).toFixed(2));
+  }
+  return pts.join(' ');
+}
+function goldDefs(svg, id) {
+  const defs = el('defs', {}, svg);
+  const g = el('linearGradient', { id, x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fde7ae' }, g); el('stop', { offset: '100%', 'stop-color': '#c38a3d' }, g);
+  return defs;
+}
+
+/* Generic entrance / exit.  Sets opacity, transform and blur on an element. */
+function anim(e, t, tin, opt = {}) {
+  const dur = opt.dur ?? 0.6, dy = opt.dy ?? 40, dx = opt.dx ?? 0, blur = opt.blur ?? 10, s0 = opt.s0 ?? 0.96;
+  const ease = opt.ease ?? E.outCubic;
+  const pin = ease(prog(t, tin, tin + dur));
+  const pinLin = prog(t, tin, tin + dur);
+  let pout = 0;
+  if (opt.out != null) pout = E.inCubic(prog(t, opt.out, opt.out + (opt.odur ?? 0.4)));
+  const o = clamp(pinLin * 1.6) * (1 - pout) * (opt.oMul ?? 1);
+  const y = (1 - pin) * dy + pout * (opt.dyOut ?? -30);
+  const x = (1 - pin) * dx;
+  const s = lerp(s0, 1, pin) * lerp(1, opt.sOut ?? 0.98, pout) * (opt.sMul ?? 1);
+  const b = (1 - pinLin) * blur + pout * blur * 0.8;
+  e.style.opacity = o.toFixed(4);
+  e.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${s.toFixed(4)})` + (opt.extra || '');
+  e.style.filter = b > 0.15 ? `blur(${b.toFixed(2)}px)` + (opt.filter ? ' ' + opt.filter : '') : (opt.filter || '');
+  e.style.visibility = o < 0.002 ? 'hidden' : 'visible';
+  return { pin, pout, o };
+}
+function growLines(box, t, t0, t1) {
+  box.querySelectorAll('.ln').forEach(l => {
+    l.style.transform = `scaleX(${E.outCubic(prog(t, t0, t1)).toFixed(3)})`;
+    l.style.transformOrigin = l.classList.contains('r') ? 'left' : 'right';
+  });
+}
+
+/* ======================= DATA ======================= */
+const DURATION = 39.0;
+
+/* Subtitles: text from the source video's burned-in captions (checked with Whisper
+   large-v3). Word starts: each phrase was transcribed up to every pause in the audio
+   and a word is placed where it first appears complete. [word, start, keyword?] */
+const SUBS = [
+  { a: 0.00, b: 0.86, w: [['Ini', 0.05], ['rumus', 0.38, 1], ['ampuh', 0.71, 1]] },
+  { a: 0.86, b: 2.24, w: [['agar', 0.92], ['doa', 1.34, 1], ['kamu', 1.51], ['gampang', 1.68]] },
+  { a: 2.24, b: 3.08, w: [['dikabulkan', 2.30, 1], ['oleh', 2.64], ['Allah.', 2.88, 1]] },
+  { a: 3.08, b: 4.04, w: [['Caranya,', 3.14], ['gabungkan', 3.65]] },
+  { a: 4.04, b: 5.20, w: [['bacaan', 4.10], ['zikir', 4.47, 1], ['ini', 5.05]] },
+  { a: 5.20, b: 5.99, w: [['dengan', 5.26], ['doa', 5.40, 1], ['permintaan', 5.71], ['kamu.', 5.87]] },
+  { a: 5.99, b: 6.84, w: [['Sebab', 6.05], ['Nabi', 6.47, 1]] },
+  { a: 6.84, b: 7.36, w: [['shallallāhu', 6.90, 1], ['‘alaihi', 7.05, 1], ['wa', 7.17, 1], ['sallam', 7.30, 1]] },
+  { a: 7.36, b: 8.22, w: [['sendiri', 7.42], ['yang', 7.54], ['bersabda', 8.04]] },
+  { a: 8.22, b: 9.18, w: [['di', 8.28], ['dalam', 8.61], ['hadis', 8.80, 1], ['shahih:', 8.99, 1]] },
+  { a: 9.18, b: 10.78, w: [['“Jika', 9.24], ['zikir', 9.76, 1], ['ini', 10.30], ['digunakan', 10.38]] },
+  { a: 10.78, b: 11.49, w: [['untuk', 10.84], ['meminta,', 10.95, 1]] },
+  { a: 11.49, b: 12.58, w: [['niscaya', 11.55], ['akan', 12.08], ['diberi.', 12.16, 1]] },
+  { a: 12.58, b: 13.67, w: [['Dan', 12.64], ['jika', 13.00], ['digunakan', 13.27]] },
+  { a: 13.67, b: 14.38, w: [['untuk', 13.73], ['berdoa,', 13.90, 1]] },
+  { a: 14.38, b: 15.22, w: [['niscaya', 14.44], ['dikabulkan.”', 15.02, 1]] },
+  { a: 15.22, b: 16.56, w: [['Jadi,', 15.28], ['sebelum', 15.59], ['meminta', 15.86, 1], ['apapun,', 16.38]] },
+  { a: 16.56, b: 17.66, w: [['baca', 16.62], ['zikir', 17.19, 1], ['ini', 17.59]] },
+  { a: 17.66, b: 17.97, w: [['terlebih', 17.72], ['dahulu.', 17.86]] },
+  { a: 17.97, b: 20.88, doa: 1, w: [['Allāhumma', 18.03], ['innī', 18.69], ['as-aluka', 19.57], ['bi-annī', 19.94], ['asyhadu', 20.61]] },
+  { a: 20.88, b: 23.36, doa: 1, w: [['annaka', 20.94], ['antallāh,', 21.38], ['lā', 22.16], ['ilāha', 22.37], ['illā', 22.59], ['anta,', 22.80]] },
+  { a: 23.36, b: 24.95, doa: 1, w: [['al-aḥad', 23.42], ['ash-shamad,', 24.34]] },
+  { a: 24.95, b: 26.82, doa: 1, w: [['alladzī', 25.01], ['lam', 25.36], ['yalid', 25.88], ['wa lam', 25.96], ['yūlad,', 26.43]] },
+  { a: 26.82, b: 28.65, doa: 1, w: [['wa lam', 26.88], ['yakun', 27.17], ['lahū', 27.44], ['kufuwan', 27.69], ['aḥad.', 28.38]] },
+  { a: 28.65, b: 30.38, w: [['Nah,', 28.71], ['setelah', 29.05], ['membaca', 29.69], ['zikir', 29.82, 1], ['tadi,', 30.22]] },
+  { a: 30.38, b: 31.49, w: [['baru', 30.44], ['langsung', 30.80], ['panjatkan', 30.90, 1]] },
+  { a: 31.49, b: 32.22, w: [['doa-doa', 31.55, 1], ['dan', 31.78], ['hajat', 31.90, 1], ['kita.', 32.05]] },
+  { a: 32.22, b: 33.58, w: [['Semoga', 32.28], ['Allah', 32.75, 1], ['mengabulkannya.', 32.88, 1]] },
+  { a: 33.58, b: 34.78, w: [['Share', 33.64, 1], ['sebanyak-banyaknya.', 34.14]] },
+  { a: 34.78, b: 35.73, w: [['Komen', 34.84], ['“doa”,', 35.15, 1]] },
+  { a: 35.73, b: 37.48, w: [['nanti', 35.79], ['aku', 35.87], ['kirim', 36.18], ['teks', 36.74, 1], ['lengkapnya,', 36.85]] },
+  { a: 37.48, b: 38.21, w: [['Arab', 37.54, 1], ['dan', 37.70], ['artinya', 37.87, 1]] },
+  { a: 38.21, b: 39.00, w: [['langsung', 38.27], ['ke', 38.60], ['DM', 38.72, 1], ['kamu.', 38.83]] },
+];
+
+/* Scene windows [in, out] (seconds) */
+const SC = {
+  hook: [0, 3.55], rumus: [3.05, 6.62], nabi: [6.2, 9.6], hadis: [9.2, 16.05],
+  step1: [15.55, 18.35], zikir: [17.85, 29.0], step2: [28.6, 34.0], cta: [33.55, 39.0],
+};
+
+/* Key moments (word starts) used by the scene animations */
+const K = {
+  zikir: 4.47, dengan: 5.26, doaMinta: 5.40, nabi: 6.35, bersabda: 8.04, hadis: 8.3,
+  r1: 9.24, meminta: 10.95, diberi: 12.16, r2: 12.64, berdoa: 13.90, dikabulkan: 15.02,
+  sebelum: 15.7, baca: 16.62,
+  z: [[18.03, 20.94], [20.94, 23.42], [23.42, 26.88], [26.88, 28.66]],
+  setelah: 28.71, panjatkan: 30.90, hajat: 31.55, semoga: 32.28,
+  share: 33.64, komen: 34.84, doaKomen: 35.15, teks: 36.18, arab: 37.54, artinya: 37.87, dm: 38.27,
+};
+
+/* ======================= BUILD: background pattern ======================= */
+(function buildPattern() {
+  const svg = $('pattern');
+  const defs = el('defs', {}, svg);
+  const pat = el('pattern', { id: 'geo', width: 150, height: 150, patternUnits: 'userSpaceOnUse' }, defs);
+  const st = { fill: 'none', stroke: 'rgba(233, 210, 160, 0.075)', 'stroke-width': 1.4 };
+  el('polygon', { points: starPoints(75, 75, 46, 0, 8), ...st }, pat);
+  el('polygon', { points: starPoints(75, 75, 24, Math.PI / 8, 8), ...st }, pat);
+  for (const [x, y] of [[0, 0], [150, 0], [0, 150], [150, 150]]) el('polygon', { points: starPoints(x, y, 30, Math.PI / 8, 8), ...st }, pat);
+  el('line', { x1: 0, y1: 75, x2: 29, y2: 75, ...st }, pat); el('line', { x1: 121, y1: 75, x2: 150, y2: 75, ...st }, pat);
+  el('line', { x1: 75, y1: 0, x2: 75, y2: 29, ...st }, pat); el('line', { x1: 75, y1: 121, x2: 75, y2: 150, ...st }, pat);
+  const rg = el('radialGradient', { id: 'patfade', cx: '50%', cy: '42%', r: '62%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fff', 'stop-opacity': 1 }, rg);
+  el('stop', { offset: '100%', 'stop-color': '#fff', 'stop-opacity': 0 }, rg);
+  const mask = el('mask', { id: 'patmask' }, defs);
+  el('rect', { width: 1080, height: 1920, fill: 'url(#patfade)' }, mask);
+  el('rect', { width: 1080, height: 1920, fill: 'url(#geo)', mask: 'url(#patmask)' }, svg);
+})();
+
+/* ======================= BUILD: moon ======================= */
+(function buildSky() {
+  const svg = $('sky');
+  const defs = el('defs', {}, svg);
+  const g1 = el('radialGradient', { id: 'moonGlow' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fff6d6', 'stop-opacity': 0.42 }, g1);
+  el('stop', { offset: '35%', 'stop-color': '#f4e6b8', 'stop-opacity': 0.14 }, g1);
+  el('stop', { offset: '100%', 'stop-color': '#f4e6b8', 'stop-opacity': 0 }, g1);
+  const g2 = el('radialGradient', { id: 'moonFill', cx: '35%', cy: '65%', r: '75%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fffbe9' }, g2);
+  el('stop', { offset: '100%', 'stop-color': '#f1e2b0' }, g2);
+  const m = el('mask', { id: 'moonMask' }, defs);
+  el('rect', { x: 0, y: 0, width: 1080, height: 1920, fill: '#000' }, m);
+  el('circle', { cx: 848, cy: 270, r: 74, fill: '#fff' }, m);
+  el('circle', { cx: 882, cy: 244, r: 66, fill: '#000' }, m);
+  const g = el('g', { id: 'moon' }, svg);
+  el('circle', { cx: 830, cy: 272, r: 250, fill: 'url(#moonGlow)', id: 'moonHalo' }, g);
+  el('circle', { cx: 848, cy: 270, r: 74, fill: 'url(#moonFill)', mask: 'url(#moonMask)', style: 'filter: drop-shadow(0 0 16px rgba(255,240,190,.55))' }, g);
+})();
+
+/* ======================= BUILD: lanterns ======================= */
+function lanternSVG(parent, id, x, topY, len, scale) {
+  const g = el('g', { id, transform: `translate(${x},${topY})` }, parent);
+  const inner = el('g', {}, g);
+  el('line', { x1: 0, y1: 0, x2: 0, y2: len, stroke: '#b8914f', 'stroke-width': 2.2 }, inner);
+  const body = el('g', { transform: `translate(0,${len}) scale(${scale})` }, inner);
+  el('circle', { cx: 0, cy: 95, r: 150, fill: 'url(#lanternGlow)' }, body);
+  el('circle', { cx: 0, cy: 6, r: 8, fill: 'none', stroke: '#d3a456', 'stroke-width': 3.2 }, body);
+  el('path', { d: 'M-14,14 L14,14 L30,44 L-30,44 Z', fill: 'url(#lgCap)' }, body);
+  el('rect', { x: -38, y: 42, width: 76, height: 11, rx: 3, fill: 'url(#lgCap)' }, body);
+  el('path', { d: 'M-34,53 L34,53 L42,120 L30,158 L-30,158 L-42,120 Z', fill: 'url(#lgBody)', stroke: '#b98237', 'stroke-width': 2 }, body);
+  el('path', { d: 'M-22,62 L22,62 L28,118 L20,146 L-20,146 L-28,118 Z', fill: 'url(#lgInner)', opacity: 0.95 }, body);
+  el('line', { x1: 0, y1: 55, x2: 0, y2: 156, stroke: '#b98237', 'stroke-width': 2.4, opacity: 0.8 }, body);
+  el('line', { x1: -40, y1: 120, x2: 40, y2: 120, stroke: '#b98237', 'stroke-width': 2.4, opacity: 0.8 }, body);
+  el('path', { d: 'M0,84 L9,98 L0,112 L-9,98 Z', fill: '#fff4d2', opacity: 0.95 }, body);
+  el('rect', { x: -34, y: 157, width: 68, height: 11, rx: 3, fill: 'url(#lgCap)' }, body);
+  el('path', { d: 'M-22,168 L22,168 L0,206 Z', fill: 'url(#lgCap)' }, body);
+  return inner;
+}
+let LANTERNS = [];
+(function buildLanterns() {
+  const svg = $('lanterns');
+  const defs = el('defs', {}, svg);
+  const lg = el('radialGradient', { id: 'lanternGlow' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#ffcf7a', 'stop-opacity': 0.42 }, lg);
+  el('stop', { offset: '45%', 'stop-color': '#ffb85c', 'stop-opacity': 0.12 }, lg);
+  el('stop', { offset: '100%', 'stop-color': '#ffb85c', 'stop-opacity': 0 }, lg);
+  const cap = el('linearGradient', { id: 'lgCap', x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#a8742f' }, cap); el('stop', { offset: '50%', 'stop-color': '#f2cf83' }, cap); el('stop', { offset: '100%', 'stop-color': '#a8742f' }, cap);
+  const bd = el('linearGradient', { id: 'lgBody', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#f7cf7d' }, bd); el('stop', { offset: '100%', 'stop-color': '#d58e36' }, bd);
+  const inn = el('radialGradient', { id: 'lgInner', cx: '50%', cy: '45%', r: '60%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fff3cf' }, inn); el('stop', { offset: '60%', 'stop-color': '#ffd488' }, inn); el('stop', { offset: '100%', 'stop-color': '#f0a94d' }, inn);
+  LANTERNS.push({ g: lanternSVG(svg, 'lan1', 104, -10, 128, 1.0), ph: 0.0, amp: 2.6 });
+  LANTERNS.push({ g: lanternSVG(svg, 'lan2', 214, -10, 46, 0.78), ph: 1.7, amp: 3.2 });
+})();
+
+/* ======================= BUILD: mosque silhouette ======================= */
+(function buildMosque() {
+  const svg = $('mosque');
+  const defs = el('defs', {}, svg);
+  const sil = el('linearGradient', { id: 'silh', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#0f2f35' }, sil); el('stop', { offset: '100%', 'stop-color': '#061519' }, sil);
+  const far = el('linearGradient', { id: 'silhFar', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#0f3036', 'stop-opacity': 0.75 }, far); el('stop', { offset: '100%', 'stop-color': '#0a2428', 'stop-opacity': 0.9 }, far);
+  const win = el('linearGradient', { id: 'win', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#d8b46a' }, win); el('stop', { offset: '100%', 'stop-color': '#8a6a33' }, win);
+  const stroke = 'rgba(212, 175, 106, 0.30)';
+  const fg = el('g', { opacity: 0.85 }, svg);
+  el('path', { d: 'M0,1560 L0,1500 C40,1490 70,1470 95,1440 C120,1470 150,1490 190,1500 L190,1600 L0,1600 Z', fill: 'url(#silhFar)' }, fg);
+  el('path', { d: 'M28,1600 L28,1370 L60,1300 L92,1370 L92,1600 Z', fill: 'url(#silhFar)' }, fg);
+  el('path', { d: 'M1080,1560 L1080,1500 C1040,1490 1010,1470 985,1440 C960,1470 930,1490 890,1500 L890,1600 L1080,1600 Z', fill: 'url(#silhFar)' }, fg);
+  el('path', { d: 'M1052,1600 L1052,1360 L1020,1290 L988,1360 L988,1600 Z', fill: 'url(#silhFar)' }, fg);
+  el('rect', { x: 0, y: 1590, width: 1080, height: 40, fill: '#0b262b', opacity: 0.8 }, fg);
+  const g = el('g', {}, svg);
+  const st = { fill: 'url(#silh)', stroke, 'stroke-width': 1.6 };
+  for (const cx of [200, 880]) {
+    el('rect', { x: cx - 1.6, y: 1262, width: 3.2, height: 50, fill: '#274449' }, g);
+    el('path', { d: `M${cx - 27},1398 L${cx},1310 L${cx + 27},1398 Z`, ...st }, g);
+    el('rect', { x: cx - 29, y: 1396, width: 58, height: 10, ...st }, g);
+    el('rect', { x: cx - 22, y: 1406, width: 44, height: 44, ...st }, g);
+    el('rect', { x: cx - 25, y: 1450, width: 50, height: 370, ...st }, g);
+    el('rect', { x: cx - 36, y: 1560, width: 72, height: 14, ...st }, g);
+    el('path', { d: `M${cx - 9},1612 L${cx - 9},1594 Q${cx},1580 ${cx + 9},1594 L${cx + 9},1612 Z`, fill: 'url(#win)', opacity: 0.9 }, g);
+  }
+  el('path', { d: 'M392,1692 C380,1585 452,1522 512,1484 Q536,1466 540,1432 Q544,1466 568,1484 C628,1522 700,1585 688,1692 Z', ...st }, g);
+  el('rect', { x: 538.5, y: 1398, width: 3, height: 36, fill: '#c9a55e', opacity: 0.8 }, g);
+  const cres = el('g', { transform: 'translate(540,1388)' }, g);
+  el('path', { d: 'M-2,-13 A13,13 0 1,0 11,6 A10,10 0 1,1 -2,-13 Z', fill: '#f3dc9f', style: 'filter: drop-shadow(0 0 6px rgba(255,225,150,.7))' }, cres);
+  el('rect', { x: 250, y: 1690, width: 580, height: 124, ...st }, g);
+  const arch = (x, y, w, h) => `M${x},${y + h} L${x},${y + w / 2} A${w / 2},${w / 2} 0 0 1 ${x + w},${y + w / 2} L${x + w},${y + h} Z`;
+  for (const x of [288, 348, 408, 640, 700, 760]) el('path', { d: arch(x, 1744, 32, 66), fill: 'url(#win)', opacity: 0.92 }, g);
+  el('path', { d: arch(506, 1712, 68, 102), fill: 'url(#win)' }, g);
+  el('rect', { x: 0, y: 1812, width: 1080, height: 110, fill: '#041216' }, svg);
+  el('line', { x1: 0, y1: 1812, x2: 1080, y2: 1812, stroke: 'rgba(212,175,106,0.18)', 'stroke-width': 1.5 }, svg);
+})();
+
+/* ======================= BUILD: icons ======================= */
+/* Tasbih (prayer beads): 33 beads on a loop, one bead "counted" at a time */
+let TASBIH = [];
+function buildTasbih(parent, cx, cy, s, beads = TASBIH, gid = 'bead') {
+  const g = el('g', { transform: `translate(${cx},${cy}) scale(${s})` }, parent);
+  const defs = el('defs', {}, g);
+  const bg = el('radialGradient', { id: gid, cx: '35%', cy: '30%', r: '70%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fff1c6' }, bg); el('stop', { offset: '55%', 'stop-color': '#eec36f' }, bg); el('stop', { offset: '100%', 'stop-color': '#a8742f' }, bg);
+  el('ellipse', { cx: 0, cy: -14, rx: 74, ry: 86, fill: 'none', stroke: 'rgba(214,178,106,.45)', 'stroke-width': 1.6 }, g);
+  const n = 33;
+  for (let i = 0; i < n; i++) {
+    const a = Math.PI / 2 + 0.34 + (i / (n - 1)) * (2 * Math.PI - 0.68);
+    const b = el('circle', { cx: (74 * Math.cos(a)).toFixed(2), cy: (-14 + 86 * Math.sin(a)).toFixed(2), r: 7.2, fill: `url(#${gid})` }, g);
+    beads.push(b);
+  }
+  el('circle', { cx: 0, cy: 78, r: 10.5, fill: `url(#${gid})` }, g);
+  el('ellipse', { cx: 0, cy: 102, rx: 8, ry: 14, fill: `url(#${gid})` }, g);
+  for (const dx of [-14, -7, 0, 7, 14]) el('path', { d: `M0,114 Q${dx * 0.4},136 ${dx},160`, fill: 'none', stroke: '#e3b262', 'stroke-width': 2.4, 'stroke-linecap': 'round' }, g);
+  el('rect', { x: -5, y: 112, width: 10, height: 8, rx: 2, fill: '#d9a04d' }, g);
+  return g;
+}
+
+/* Two open hands raised in doa (palms up, pinkies together) */
+const HAND_D = 'M-50,0 L-58,-118 L-60,-194 Q-60,-214 -47,-214 Q-34,-214 -34,-196 L-34,-244 Q-34,-264 -20,-264 Q-6,-264 -6,-246 L-6,-262 Q-6,-282 8,-282 Q22,-282 22,-262 L22,-242 Q22,-260 35,-260 Q48,-260 48,-240 L50,-140 L84,-178 Q97,-192 108,-179 Q117,-168 108,-155 L66,-78 Q56,-42 50,0 Z';
+function buildHands(parent, x, y, s, pre) {
+  const defs = el('defs', {}, parent);
+  const f = el('linearGradient', { id: pre + 'hf', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#1b4b52' }, f); el('stop', { offset: '100%', 'stop-color': '#0a2328' }, f);
+  const glow = el('radialGradient', { id: pre + 'hg' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#ffd98c', 'stop-opacity': 0.55 }, glow); el('stop', { offset: '100%', 'stop-color': '#ffd98c', 'stop-opacity': 0 }, glow);
+  const g = el('g', { transform: `translate(${x},${y}) scale(${s})` }, parent);
+  el('ellipse', { cx: 0, cy: -150, rx: 230, ry: 190, fill: `url(#${pre}hg)`, class: 'hglow' }, g);
+  const st = { fill: `url(#${pre}hf)`, stroke: 'rgba(240, 200, 120, 0.9)', 'stroke-width': 3, 'stroke-linejoin': 'round' };
+  for (const side of [-1, 1]) {
+    const h = el('g', { transform: `translate(${side * 64},0) scale(${side},1) rotate(9)` }, g);
+    el('path', { d: 'M-64,4 L60,4 L66,110 L-70,110 Z', fill: '#0b2a30', stroke: 'rgba(240,200,120,.55)', 'stroke-width': 2.4, 'stroke-linejoin': 'round' }, h);
+    el('path', { d: 'M-58,12 L58,12', stroke: 'rgba(240,200,120,.4)', 'stroke-width': 2 }, h);
+    el('path', { d: HAND_D, ...st }, h);
+    for (const [x1, y1, y2] of [[-34, -194, -150], [-6, -244, -150], [22, -242, -150]]) el('path', { d: `M${x1},${y1} L${x1},${y2}`, stroke: 'rgba(240,200,120,.5)', 'stroke-width': 2, 'stroke-linecap': 'round' }, h);
+    el('path', { d: 'M-40,-70 Q0,-50 40,-92', fill: 'none', stroke: 'rgba(240,200,120,.35)', 'stroke-width': 2, 'stroke-linecap': 'round' }, h);
+  }
+  return g;
+}
+
+/* Seal: 8-point star with a check mark */
+function buildSeal(svg, cx, cy, R) {
+  goldDefs(svg, 'sealG');
+  const g = el('g', { transform: `translate(${cx},${cy})` }, svg);
+  const rot = el('g', {}, g);
+  el('polygon', { points: starPoints(0, 0, R, 0), fill: 'rgba(240,196,110,0.14)', stroke: 'url(#sealG)', 'stroke-width': 3.4 }, rot);
+  el('polygon', { points: starPoints(0, 0, R * 0.8, Math.PI / 8), fill: 'none', stroke: 'rgba(240,196,110,0.5)', 'stroke-width': 1.6 }, rot);
+  el('circle', { cx: 0, cy: 0, r: R * 0.56, fill: 'url(#sealG)' }, g);
+  const ck = el('path', { d: `M${-R * 0.26},${R * 0.02} L${-R * 0.06},${R * 0.22} L${R * 0.3},${-R * 0.2}`, fill: 'none', stroke: '#1d2a26', 'stroke-width': R * 0.11, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, g);
+  const L = ck.getTotalLength(); ck.setAttribute('stroke-dasharray', L); ck.setAttribute('stroke-dashoffset', L);
+  svg.style.filter = 'drop-shadow(0 0 18px rgba(245,200,110,.6))';
+  return { rot, ck, L };
+}
+
+/* Arch frame (same shape family as the previous video's arches) */
+function buildArch(container, kind, W, H) {
+  const svg = container.querySelector('svg');
+  const defs = el('defs', {}, svg);
+  const fillG = el('linearGradient', { id: 'archF' + kind, x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#10353b', 'stop-opacity': 0.85 }, fillG);
+  el('stop', { offset: '100%', 'stop-color': '#051519', 'stop-opacity': 0.9 }, fillG);
+  const glowG = el('radialGradient', { id: 'archG' + kind, cx: '50%', cy: '30%', r: '55%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#f6cd78', 'stop-opacity': 0.28 }, glowG);
+  el('stop', { offset: '100%', 'stop-color': '#f6cd78', 'stop-opacity': 0 }, glowG);
+  const d = `M16,${H - 16} L16,210 C16,100 130,50 ${W / 2},10 C${W - 130},50 ${W - 16},100 ${W - 16},210 L${W - 16},${H - 16} Z`;
+  el('path', { d, fill: `url(#archF${kind})`, stroke: 'rgba(214,178,106,0.75)', 'stroke-width': 2.4 }, svg);
+  el('path', { d, fill: `url(#archG${kind})`, class: 'arch-glow' }, svg);
+  const d2 = `M34,${H - 34} L34,216 C34,114 140,68 ${W / 2},32 C${W - 140},68 ${W - 34},114 ${W - 34},216 L${W - 34},${H - 34} Z`;
+  el('path', { d: d2, fill: 'none', stroke: 'rgba(214,178,106,0.25)', 'stroke-width': 1.4 }, svg);
+  el('polygon', { points: starPoints(W / 2, 12, 14, 0), fill: '#f3cf85', style: 'filter: drop-shadow(0 0 8px rgba(245,200,110,.9))' }, svg);
+  el('ellipse', { cx: W / 2, cy: 350, rx: 110, ry: 10, fill: 'rgba(246,205,120,0.22)' }, svg);
+  return svg;
+}
+buildTasbih(buildArch($('r-left'), 'z', 420, 660), 210, 180, 1.0);
+buildHands(buildArch($('r-right'), 'd', 420, 660), 210, 330, 0.62, 'r');
+const S2ZK = (function () {
+  const svg = $('s2-zk').querySelector('svg');
+  const defs = goldDefs(svg, 'zkRing');
+  const glow = el('radialGradient', { id: 'zkGlow' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#f6cd78', 'stop-opacity': 0.4 }, glow); el('stop', { offset: '100%', 'stop-color': '#f6cd78', 'stop-opacity': 0 }, glow);
+  el('circle', { cx: 150, cy: 150, r: 250, fill: 'url(#zkGlow)' }, svg);
+  const star = el('polygon', { points: starPoints(150, 150, 150, Math.PI / 8), fill: 'rgba(6, 24, 29, 0.9)', stroke: 'url(#zkRing)', 'stroke-width': 2.4 }, svg);
+  el('circle', { cx: 150, cy: 150, r: 136, fill: 'rgba(10, 36, 42, 0.95)', stroke: 'url(#zkRing)', 'stroke-width': 4 }, svg);
+  el('circle', { cx: 150, cy: 150, r: 122, fill: 'none', stroke: 'rgba(214,178,106,0.35)', 'stroke-width': 1.4 }, svg);
+  const beads = [];
+  buildTasbih(svg, 150, 140, 1.05, beads, 'beadZ');
+  return { star, beads };
+})();
+const S2HANDS = buildHands($('s2-hands'), 540, 1400, 1.0, 's');
+
+function buildMedal(id, cx, cy, r, text, fs, font) {
+  const m = $(id);
+  const size = r * 2;
+  m.style.left = (cx - r) + 'px'; m.style.top = (cy - r) + 'px'; m.style.width = size + 'px'; m.style.height = size + 'px';
+  const svg = el('svg', { width: size, height: size }, m);
+  const defs = el('defs', {}, svg);
+  const rg = el('radialGradient', { id: id + 'f', cx: '50%', cy: '40%', r: '65%' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#1a4a50' }, rg); el('stop', { offset: '100%', 'stop-color': '#061a1f' }, rg);
+  const lg = el('linearGradient', { id: id + 's', x1: 0, y1: 0, x2: 1, y2: 1 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fde7ae' }, lg); el('stop', { offset: '100%', 'stop-color': '#c38a3d' }, lg);
+  const glow = el('radialGradient', { id: id + 'g' }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#f6cd78', 'stop-opacity': 0.45 }, glow); el('stop', { offset: '100%', 'stop-color': '#f6cd78', 'stop-opacity': 0 }, glow);
+  el('circle', { cx: r, cy: r, r: r * 1.75, fill: `url(#${id}g)`, class: 'mglow' }, svg);
+  el('polygon', { points: starPoints(r, r, r * 1.12, Math.PI / 8), fill: 'rgba(6, 24, 29, 0.9)', stroke: `url(#${id}s)`, 'stroke-width': 2, opacity: 0.9, class: 'mstar' }, svg);
+  el('circle', { cx: r, cy: r, r: r * 0.93, fill: `url(#${id}f)`, stroke: `url(#${id}s)`, 'stroke-width': 3.5 }, svg);
+  el('circle', { cx: r, cy: r, r: r * 0.83, fill: 'none', stroke: 'rgba(214,178,106,0.35)', 'stroke-width': 1.3 }, svg);
+  const nm = document.createElement('div');
+  nm.className = 'nm gold-text';
+  nm.style.fontSize = fs + 'px'; nm.style.lineHeight = '1.6';
+  if (font) { nm.style.fontFamily = font; nm.style.direction = 'ltr'; nm.style.fontWeight = 900; nm.style.lineHeight = '1.2'; nm.style.transform = 'translateY(-50%)'; }
+  nm.innerHTML = text;
+  m.appendChild(nm);
+  return m;
+}
+buildMedal('m-nabi', 540, 610, 118, 'مُحَمَّدٌ <span class="saw" style="font-weight:700">ﷺ</span>', 64);
+buildMedal('m-s1', 310, 900, 112, '1', 128, 'Poppins');
+buildMedal('m-s2', 770, 900, 112, '2', 128, 'Poppins');
+const SEAL = buildSeal($('n-seal'), 85, 85, 78);
+
+/* step path + travelling dot */
+const S1P = (function () {
+  const svg = $('s1-path');
+  const defs = el('defs', {}, svg);
+  const lg = el('linearGradient', { id: 's1lg', x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
+  el('stop', { offset: '0%', 'stop-color': '#fbe3a3' }, lg); el('stop', { offset: '100%', 'stop-color': '#d9a24d' }, lg);
+  const d = 'M440,900 L640,900';
+  el('path', { d, fill: 'none', stroke: 'rgba(214,178,106,0.2)', 'stroke-width': 3, 'stroke-dasharray': '2 12', 'stroke-linecap': 'round' }, svg);
+  const p = el('path', { d, fill: 'none', stroke: 'url(#s1lg)', 'stroke-width': 4, 'stroke-linecap': 'round', style: 'filter: drop-shadow(0 0 8px rgba(245,200,110,.85))' }, svg);
+  const L = p.getTotalLength(); p.setAttribute('stroke-dasharray', L); p.setAttribute('stroke-dashoffset', L);
+  const head = el('path', { d: 'M628,886 L648,900 L628,914', fill: 'none', stroke: '#f3cf85', 'stroke-width': 4, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, svg);
+  return { p, L, head };
+})();
+
+/* paper plane for the DM moment */
+const PLANE = (function () {
+  const svg = $('c-plane');
+  const g = el('g', {}, svg);
+  el('path', { d: 'M-34,-4 L36,-30 L14,34 L4,8 Z', fill: '#fcf3de', stroke: '#c99443', 'stroke-width': 2.4, 'stroke-linejoin': 'round' }, g);
+  el('path', { d: 'M4,8 L36,-30', stroke: '#c99443', 'stroke-width': 2.2 }, g);
+  g.style.filter = 'drop-shadow(0 0 14px rgba(255,220,150,.9))';
+  const trail = el('path', { fill: 'none', stroke: 'rgba(252,226,160,.75)', 'stroke-width': 3, 'stroke-dasharray': '4 12', 'stroke-linecap': 'round' }, svg);
+  return { g, trail };
+})();
+
+/* ======================= BUILD: hook title letters ======================= */
+(function () {
+  const h = $('h-title1');
+  for (const ch of 'RUMUS DOA') {
+    const s = document.createElement('span');
+    s.textContent = ch === ' ' ? ' ' : ch;
+    s.style.display = 'inline-block';
+    if (ch === ' ') s.style.width = '0.3em';
+    s.className = 'hl';
+    h.appendChild(s);
+  }
+  h.style.color = 'var(--cream)';
+  h.style.filter = 'drop-shadow(0 6px 18px rgba(0,0,0,.5))';
+})();
+
+/* ======================= fit Arabic / wide lines ======================= */
+function fitAll() {
+  document.querySelectorAll('.fit').forEach(e => {
+    const max = +e.dataset.maxw;
+    let fs = parseFloat(getComputedStyle(e).fontSize);
+    const inner = document.createElement('span');
+    inner.style.whiteSpace = 'nowrap';
+    while (e.firstChild) inner.appendChild(e.firstChild);
+    e.appendChild(inner);
+    let guard = 0;
+    while (inner.getBoundingClientRect().width > max && guard++ < 80) { fs -= 1; e.style.fontSize = fs + 'px'; }
+  });
+}
+
+/* ======================= canvases ======================= */
+const bg = $('bg').getContext('2d');
+const fx = $('fx').getContext('2d');
+const fxb = $('fxb').getContext('2d');
+const rnd = mulberry32(20260927);
+const STARS = Array.from({ length: 150 }, () => ({ x: rnd() * 1080, y: rnd() * 1300, r: 0.6 + rnd() * 1.7, ph: rnd() * 6.28, sp: 0.6 + rnd() * 2.2 }));
+const BOKEH = Array.from({ length: 34 }, () => ({ x: rnd() * 1080, y: rnd() * 1920, r: 3 + rnd() * 9, sp: 10 + rnd() * 26, ph: rnd() * 6.28, a: 0.25 + rnd() * 0.5 }));
+
+function drawBG(t) {
+  bg.clearRect(0, 0, 1080, 1920);
+  for (const s of STARS) {
+    const tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * s.sp + s.ph));
+    bg.globalAlpha = tw * 0.9;
+    bg.fillStyle = '#eaf2f0';
+    bg.beginPath(); bg.arc(s.x, s.y, s.r, 0, 6.2832); bg.fill();
+  }
+  for (const b of BOKEH) {
+    let y = (b.y - t * b.sp) % 1920; if (y < -30) y += 1950;
+    const x = b.x + Math.sin(t * 0.5 + b.ph) * 16;
+    const g = bg.createRadialGradient(x, y, 0, x, y, b.r * 2.2);
+    const a = b.a * (0.6 + 0.4 * Math.sin(t * 1.3 + b.ph));
+    g.addColorStop(0, `rgba(250, 220, 150, ${a})`);
+    g.addColorStop(0.35, `rgba(240, 200, 120, ${a * 0.45})`);
+    g.addColorStop(1, 'rgba(240, 200, 120, 0)');
+    bg.globalAlpha = 1; bg.fillStyle = g;
+    bg.beginPath(); bg.arc(x, y, b.r * 2.2, 0, 6.2832); bg.fill();
+  }
+  bg.globalAlpha = 1;
+}
+
+/* sparkle burst (gold particles) */
+function makeBurst(seed, n) {
+  const r = mulberry32(seed);
+  return Array.from({ length: n }, () => ({ a: r() * 6.2832, v: 160 + r() * 520, s: 1.6 + r() * 3.2, d: 0.7 + r() * 0.6 }));
+}
+function drawBurst(ctx, t, t0, x, y, P, grav = 160) {
+  const dt = t - t0;
+  if (dt < 0 || dt > 1.4) return;
+  ctx.save();
+  ctx.shadowColor = 'rgba(255, 210, 120, 1)'; ctx.shadowBlur = 12;
+  for (const p of P) {
+    if (dt > p.d) continue;
+    const k = dt / p.d;
+    const px = x + Math.cos(p.a) * p.v * dt * (1 - 0.35 * k);
+    const py = y + Math.sin(p.a) * p.v * dt * (1 - 0.35 * k) + grav * dt * dt;
+    ctx.fillStyle = `rgba(255, 230, 165, ${(1 - k).toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(px, py, p.s * (1 - 0.5 * k), 0, 6.2832); ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+  const rp = clamp(dt / 0.8);
+  ctx.strokeStyle = `rgba(255, 228, 160, ${(0.7 * (1 - rp)).toFixed(3)})`; ctx.lineWidth = 4 * (1 - rp) + 0.5;
+  ctx.beginPath(); ctx.arc(x, y, 20 + rp * 180, 0, 6.2832); ctx.stroke();
+  ctx.restore();
+}
+const BURST_HOOK = makeBurst(3, 36);
+const BURST_S1 = makeBurst(5, 26);
+const BURST_S2 = makeBurst(9, 30);
+const BURST_AMIN = makeBurst(13, 60);
+const BURST_DM = makeBurst(17, 30);
+
+/* hajat orbs rising from the hands */
+const ORBS = (function () {
+  const r = mulberry32(77);
+  const labels = ['Ampunan', 'Rezeki halal', 'Kesehatan', 'Keluarga', 'Ilmu', 'Hajat kita'];
+  const tx = [300, 780, 410, 680, 250, 830];
+  const ty = [1010, 990, 880, 900, 780, 790];
+  return labels.map((lb, i) => ({ lb, t0: K.panjatkan + 0.05 + i * 0.2, tx: tx[i], ty: ty[i], sx: 540 + (i % 2 ? 40 : -40), sy: 1180, ph: r() * 6.28 }));
+})();
+function drawOrbs(ctx, t) {
+  const tc = K.semoga + 0.1;
+  const gather = E.inOutCubic(prog(t, tc, tc + 0.55));
+  const gx = 540, gy = 560;
+  ctx.save();
+  ctx.font = '700 30px Poppins'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const o of ORBS) {
+    if (t < o.t0) continue;
+    const p = E.outCubic(prog(t, o.t0, o.t0 + 1.0));
+    let x = lerp(o.sx, o.tx, p) + Math.sin(t * 1.6 + o.ph) * 8 * p;
+    let y = lerp(o.sy, o.ty, p) + Math.cos(t * 1.3 + o.ph) * 6 * p;
+    x = lerp(x, gx, gather); y = lerp(y, gy, gather);
+    const a = clamp(prog(t, o.t0, o.t0 + 0.3)) * (1 - prog(t, tc + 0.4, tc + 0.6));
+    if (a <= 0.001) continue;
+    const R = 26 * (1 - 0.6 * gather);
+    const g = ctx.createRadialGradient(x, y, 0, x, y, R * 3);
+    g.addColorStop(0, `rgba(255, 244, 210, ${a})`);
+    g.addColorStop(0.3, `rgba(250, 214, 140, ${0.75 * a})`);
+    g.addColorStop(1, 'rgba(240, 196, 110, 0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R * 3, 0, 6.2832); ctx.fill();
+    // trail
+    ctx.strokeStyle = `rgba(250, 214, 140, ${0.25 * a * (1 - gather)})`; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(o.sx, o.sy); ctx.quadraticCurveTo(lerp(o.sx, x, 0.3), lerp(o.sy, y, 0.7), x, y + R); ctx.stroke();
+    // label pill
+    const la = a * (1 - gather) * clamp(prog(t, o.t0 + 0.45, o.t0 + 0.8));
+    if (la > 0.01) {
+      const w = ctx.measureText(o.lb).width + 40;
+      ctx.globalAlpha = la;
+      ctx.fillStyle = 'rgba(5, 16, 20, 0.78)'; ctx.strokeStyle = 'rgba(214, 178, 106, 0.7)'; ctx.lineWidth = 1.6;
+      const lx = x - w / 2, ly = y + 38, h = 48;
+      ctx.beginPath(); ctx.roundRect(lx, ly, w, h, 24); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#fcf3de'; ctx.fillText(o.lb, x, ly + h / 2 + 1);
+      ctx.globalAlpha = 1;
+    }
+  }
+  ctx.restore();
+}
+
+/* light beam rising from the raised hands */
+function drawBeam(ctx, t, a) {
+  if (a <= 0) return;
+  const x = 540, yb = 1180, yt = 420;
+  const w0 = 150, w1 = 360;
+  ctx.save();
+  const g = ctx.createLinearGradient(0, yb, 0, yt);
+  g.addColorStop(0, `rgba(255, 226, 160, ${0.34 * a})`);
+  g.addColorStop(0.6, `rgba(250, 214, 140, ${0.12 * a})`);
+  g.addColorStop(1, 'rgba(250, 214, 140, 0)');
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.moveTo(x - w0 / 2, yb); ctx.lineTo(x - w1 / 2, yt); ctx.lineTo(x + w1 / 2, yt); ctx.lineTo(x + w0 / 2, yb); ctx.closePath(); ctx.fill();
+  // rising motes
+  const r = mulberry32(31);
+  ctx.shadowColor = 'rgba(255, 210, 120, 1)'; ctx.shadowBlur = 10;
+  for (let i = 0; i < 26; i++) {
+    const sp = 120 + r() * 160, ph = r(), ox = (r() - 0.5) * 180;
+    const k = ((t * sp / 840) + ph) % 1;
+    const y = lerp(yb - 20, yt + 80, k);
+    const xx = x + ox * lerp(0.6, 1.4, k) + Math.sin(t * 2 + i) * 6;
+    ctx.fillStyle = `rgba(255, 236, 190, ${(a * Math.sin(Math.PI * k) * 0.9).toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(xx, y, 1.6 + r() * 2.2, 0, 6.2832); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ======================= SCENE STATE ======================= */
+function sceneVisible(id, t) {
+  const [a, b] = SC[id];
+  const on = t >= a - 0.02 && t <= b + 0.02;
+  $('sc-' + id).style.display = on ? 'block' : 'none';
+  return on;
+}
+
+/* ======================= SUBTITLES ======================= */
+let curSub = -1;
+function renderSubs(t) {
+  const box = $('subs');
+  let idx = -1;
+  for (let i = 0; i < SUBS.length; i++) if (t >= SUBS[i].a && t < SUBS[i].b) { idx = i; break; }
+  if (idx !== curSub) {
+    box.innerHTML = '';
+    curSub = idx;
+    if (idx >= 0) {
+      const s = SUBS[idx];
+      const line = document.createElement('div');
+      line.className = 'subline' + (s.doa ? ' doa' : '');
+      s.w.forEach((w) => {
+        const sp = document.createElement('span');
+        sp.className = 'w';
+        sp.textContent = w[0];
+        line.appendChild(sp);
+      });
+      box.appendChild(line);
+    }
+  }
+  if (idx < 0) return;
+  const s = SUBS[idx];
+  const line = box.firstChild;
+  const pin = E.outCubic(prog(t, s.a, s.a + 0.16));
+  const pout = prog(t, s.b - 0.1, s.b);
+  line.style.opacity = (pin * (1 - pout)).toFixed(3);
+  line.style.transform = `translateY(${((1 - pin) * 18).toFixed(1)}px)`;
+  const spans = line.children;
+  s.w.forEach((w, i) => {
+    const sp = spans[i];
+    const st = w[1];
+    const next = i + 1 < s.w.length ? s.w[i + 1][1] : s.b;
+    let cls = 'w ';
+    let sc = 1;
+    if (t < st) cls += 'dim';
+    else if (t < next) {
+      cls += 'gold';
+      const k = prog(t, st, st + 0.22);
+      sc = 1 + 0.05 * Math.sin(Math.PI * k);
+    } else cls += (w[2] || s.doa) ? 'gold' : 'white';
+    if (sp.className !== cls) sp.className = cls;
+    sp.style.transform = `scale(${sc.toFixed(3)})`;
+  });
+}
+
+/* ======================= RENDER ======================= */
+function setRays(t, x, y, op) {
+  const r = $('rays');
+  r.style.left = (x - 1100) + 'px'; r.style.top = (y - 1100) + 'px';
+  r.style.opacity = op.toFixed(3);
+  r.style.transform = `rotate(${(t * 4) % 360}deg)`;
+  const g = $('glowspot');
+  g.style.left = (x - 450) + 'px'; g.style.top = (y - 450) + 'px';
+  g.style.opacity = clamp(op * 1.1).toFixed(3);
+}
+function medalFX(id, t) {
+  const st = $(id).querySelector('.mstar');
+  st.setAttribute('transform', `rotate(${(t * 10) % 360} ${st.ownerSVGElement.width.baseVal.value / 2} ${st.ownerSVGElement.height.baseVal.value / 2})`);
+  $(id).querySelector('.mglow').setAttribute('opacity', (0.7 + 0.3 * Math.sin(t * 2.6)).toFixed(3));
+}
+function sceneFade(id, t, out, dur = 0.4) {
+  const ex = E.inCubic(prog(t, out, out + dur));
+  const sc = $('sc-' + id);
+  sc.style.opacity = (1 - ex).toFixed(3);
+  sc.style.transform = `translateY(${(-50 * ex).toFixed(1)}px) scale(${(1 - 0.03 * ex).toFixed(4)})`;
+  sc.style.filter = ex > 0.01 ? `blur(${(10 * ex).toFixed(2)}px)` : '';
+  return ex;
+}
+/* Arabic line block: dim until its turn, gold while recited, progress bar RTL */
+function doaLine(e, t, a, s0, s1, b, pre) {
+  const p = E.outCubic(prog(t, a, a + 0.6));
+  const active = t >= a && t < b;
+  const done = t >= b;
+  const o = t < a ? pre : (active ? lerp(pre, 1, p) : 0.62);
+  e.style.opacity = o.toFixed(3);
+  e.style.transform = `scale(${(t < a ? 0.97 : lerp(0.97, 1, p)).toFixed(4)})`;
+  e.style.visibility = o < 0.002 ? 'hidden' : 'visible';
+  const ar = e.querySelector('.doa-ar');
+  ar.style.color = active ? '#f7d88e' : '#fcf3de';
+  ar.style.textShadow = active ? `0 0 ${(26 + 8 * Math.sin(t * 3)).toFixed(1)}px rgba(245, 200, 110, 0.55), 0 4px 14px rgba(0,0,0,.5)` : '0 4px 14px rgba(0,0,0,.5)';
+  const bar = e.querySelector('.doa-bar i');
+  bar.style.width = (prog(t, s0, s1) * 100).toFixed(2) + '%';
+  bar.parentElement.style.opacity = done ? 0 : 1;
+  e.querySelector('.doa-id').style.color = active ? 'rgba(252, 243, 222, 0.95)' : 'rgba(252, 243, 222, 0.8)';
+}
+function stampAnim(e, t, tin, out) {
+  anim(e, t, tin, { dur: 0.55, dy: 0, blur: 6, s0: 1.6, ease: E.outBack, out, odur: 0.4 });
+  const flash = bump(t, tin + 0.15, tin + 0.9);
+  e.style.boxShadow = `0 0 ${(26 + 40 * flash).toFixed(1)}px rgba(240, 196, 110, ${(0.35 + 0.45 * flash).toFixed(3)})`;
+}
+
+function renderAt(t) {
+  drawBG(t);
+  fx.clearRect(0, 0, 1080, 1920);
+  fxb.clearRect(0, 0, 1080, 1920);
+
+  /* sky + lanterns */
+  $('moonHalo').setAttribute('opacity', (0.85 + 0.15 * Math.sin(t * 1.1)).toFixed(3));
+  LANTERNS.forEach((L) => {
+    const r = Math.sin(t * 1.25 + L.ph) * L.amp;
+    L.g.setAttribute('transform', `rotate(${r.toFixed(3)})`);
+  });
+
+  /* credit */
+  anim($('pill-speaker'), t, 0.05, { dur: 0.7, dy: -30, blur: 6 });
+  anim($('pill-credit'), t, 0.25, { dur: 0.7, dy: -20, blur: 6 });
+  const endGlow = prog(t, 38.2, 38.8);
+  $('pill-credit').style.boxShadow = `0 10px 30px rgba(0,0,0,0.35), 0 0 ${(28 * endGlow).toFixed(1)}px rgba(240, 196, 110, ${(0.55 * endGlow).toFixed(3)})`;
+  $('pill-credit').style.borderColor = `rgba(214, 178, 106, ${(0.48 + 0.4 * endGlow).toFixed(3)})`;
+
+  /* rays: position/intensity per scene */
+  let rx = 540, ry = 760, rop = 0;
+  if (t < 3.5) { ry = 704; rop = E.outCubic(prog(t, 0.6, 1.4)) * (1 - prog(t, 3.0, 3.45)) * 0.95; }
+  else if (t < 6.6) { ry = 770; rop = E.outCubic(prog(t, 5.7, 6.1)) * (1 - prog(t, 6.22, 6.6)) * 0.8; }
+  else if (t < 9.6) { ry = lerp(610, 560, E.inOutCubic(prog(t, K.hadis - 0.1, K.hadis + 0.5))); rop = E.outCubic(prog(t, 6.35, 7.0)) * (1 - prog(t, 9.15, 9.55)) * 0.75; }
+  else if (t < 16.0) { ry = 330; rop = E.outCubic(prog(t, 9.4, 10.0)) * (1 - prog(t, 15.6, 16.0)) * 0.5; }
+  else if (t < 18.3) { rx = 310; ry = 900; rop = E.outCubic(prog(t, K.baca, K.baca + 0.5)) * (1 - prog(t, 17.8, 18.2)) * 0.75; }
+  else if (t < 29) { ry = 330; rop = E.outCubic(prog(t, 18.1, 18.8)) * (1 - prog(t, 28.5, 28.9)) * 0.5; }
+  else if (t < 34) {
+    const am = E.inOutCubic(prog(t, K.semoga, K.semoga + 0.5));
+    ry = lerp(1200, 560, am); rop = (E.outCubic(prog(t, 29.2, 30.0)) * 0.6 + 0.35 * am) * (1 - prog(t, 33.5, 33.9));
+  }
+  else { ry = 430; rop = E.outCubic(prog(t, 33.8, 34.4)) * 0.45 * (1 - prog(t, 34.7, 35.2)) + 0.4 * bump(t, K.dm + 0.35, K.dm + 0.73); rx = lerp(540, 850, prog(t, 35, 35.1)); if (t > 35) ry = 1100; }
+  setRays(t, rx, ry, rop);
+
+  /* ---------- 1. HOOK ---------- */
+  if (sceneVisible('hook', t)) {
+    sceneFade('hook', t, 3.05, 0.45);
+    const letters = document.querySelectorAll('#h-title1 .hl');
+    letters.forEach((s, i) => {
+      const st = 0.1 + i * 0.04;
+      const p = E.outBack(prog(t, st, st + 0.5));
+      const pl = prog(t, st, st + 0.35);
+      s.style.opacity = clamp(pl * 1.4).toFixed(3);
+      s.style.transform = `translateY(${((1 - p) * 60).toFixed(1)}px) scale(${lerp(0.6, 1, E.outCubic(pl)).toFixed(3)})`;
+    });
+    anim($('h-kick'), t, 0.45, { dur: 0.5, dy: 0, blur: 4, s0: 1 });
+    growLines($('h-kick'), t, 0.45, 1.0);
+    $('h-kick').querySelector('.dm').style.transform = `rotate(${lerp(-180, 45, E.outBack(prog(t, 0.45, 1.0))).toFixed(1)}deg)`;
+    const pulse = 0.05 * bump(t, 2.3, 2.9);
+    const breath = 1 + 0.012 * Math.sin((t - 1.5) * 2.2) * prog(t, 1.5, 2.0) + pulse;
+    anim($('h-big-wrap'), t, 0.62, { dur: 0.75, dy: 0, blur: 22, s0: 1.35, ease: E.outExpo, sMul: breath, filter: `drop-shadow(0 0 ${(30 + 30 * pulse * 20).toFixed(0)}px rgba(242,196,105,.55)) drop-shadow(0 10px 20px rgba(0,0,0,.5))` });
+    const sw = prog(t, 1.35, 2.2), sw2 = prog(t, 2.3, 3.0);
+    const pos = sw < 1 ? lerp(-60, 160, E.inOutCubic(sw)) : lerp(-60, 160, E.inOutCubic(sw2));
+    $('h-big').style.backgroundImage = `linear-gradient(105deg, rgba(255,255,255,0) ${pos - 14}%, rgba(255,250,230,0.95) ${pos}%, rgba(255,255,255,0) ${pos + 14}%), linear-gradient(180deg, #fff0c4 0%, #f6d48d 38%, #e7b765 70%, #c98f42 100%)`;
+    anim($('h-ar'), t, 1.05, { dur: 0.8, dy: 16, blur: 6, s0: 1 });
+    $('h-ar').style.clipPath = `inset(-40px 0 -40px ${((1 - E.inOutCubic(prog(t, 1.05, 1.9))) * 100).toFixed(2)}%)`;
+    anim($('h-div'), t, 1.55, { dur: 0.6, dy: 0, blur: 4, s0: 1 });
+    growLines($('h-div'), t, 1.55, 2.15);
+    $('h-div').querySelector('.dm').style.transform = `rotate(${lerp(-180, 45, E.outBack(prog(t, 1.55, 2.15))).toFixed(1)}deg)`;
+    drawBurst(fx, t, 2.35, 540, 704, BURST_HOOK, 120);
+  }
+
+  /* ---------- 2. RUMUS ---------- */
+  if (sceneVisible('rumus', t)) {
+    const OUT = 6.25;
+    anim($('r-kick'), t, 3.2, { dur: 0.55, dy: 0, blur: 6, s0: 1, out: OUT, odur: 0.35 });
+    growLines($('r-kick'), t, 3.2, 3.8);
+    $('r-kick').querySelector('.tx').style.letterSpacing = lerp(36, 16, E.outCubic(prog(t, 3.2, 3.85))).toFixed(1) + 'px';
+    anim($('r-left'), t, 3.35, { dur: 0.7, dy: 0, dx: -120, blur: 10, s0: 0.92, out: OUT, odur: 0.35 });
+    anim($('r-right'), t, K.doaMinta - 0.1, { dur: 0.7, dy: 0, dx: 120, blur: 10, s0: 0.92, out: OUT, odur: 0.35 });
+    anim($('r-plus'), t, K.dengan - 0.05, { dur: 0.5, dy: 0, blur: 6, s0: 0.2, ease: E.outBack, out: OUT, odur: 0.35, extra: ` rotate(${lerp(-90, 0, E.outCubic(prog(t, K.dengan - 0.05, K.dengan + 0.5))).toFixed(1)}deg)` });
+    anim($('r-eq'), t, 5.72, { dur: 0.5, dy: 30, blur: 8, s0: 0.9, ease: E.outBack, out: OUT + 0.02, odur: 0.35 });
+    // counting bead + arch glows follow the words
+    const lit = t > K.zikir - 0.1 ? Math.floor((t - K.zikir + 0.1) * 11) % TASBIH.length : -1;
+    TASBIH.forEach((b, i) => { b.setAttribute('r', i === lit ? 10 : 7.2); b.style.filter = i === lit ? 'drop-shadow(0 0 8px rgba(255,225,150,1))' : ''; });
+    const gl = $('r-left').querySelector('.arch-glow'), gr = $('r-right').querySelector('.arch-glow');
+    gl.setAttribute('opacity', (0.5 + 0.5 * bump(t, K.zikir - 0.1, K.zikir + 0.9) + 0.3 * bump(t, 5.7, 6.2)).toFixed(3));
+    gr.setAttribute('opacity', (0.5 + 0.5 * bump(t, K.doaMinta, K.doaMinta + 1.0) + 0.3 * bump(t, 5.7, 6.2)).toFixed(3));
+    const hg = $('r-right').querySelector('.hglow');
+    hg.setAttribute('opacity', (0.5 + 0.5 * Math.sin(t * 3)).toFixed(3));
+  }
+
+  /* ---------- 3. NABI ---------- */
+  if (sceneVisible('nabi', t)) {
+    sceneFade('nabi', t, 9.18, 0.4);
+    const up = E.inOutCubic(prog(t, K.hadis - 0.1, K.hadis + 0.5));
+    const shift = -60 * up;
+    anim($('m-nabi'), t, K.nabi, { dur: 0.8, dy: 0, blur: 8, s0: 0.3, ease: E.outBack, extra: ` translateY(${shift.toFixed(1)}px)` });
+    medalFX('m-nabi', t);
+    anim($('l-nabi'), t, K.nabi + 0.35, { dur: 0.55, dy: 20, blur: 6, extra: ` translateY(${(shift * 1.3).toFixed(1)}px)` });
+    const sm = $('l-nabi').querySelector('small');
+    sm.style.opacity = E.outCubic(prog(t, K.bersabda, K.bersabda + 0.4)).toFixed(3);
+    sm.style.letterSpacing = lerp(14, 4, E.outCubic(prog(t, K.bersabda, K.bersabda + 0.5))).toFixed(1) + 'px';
+    anim($('n-card'), t, K.hadis, { dur: 0.7, dy: 60, blur: 10, s0: 0.95, extra: ` translateY(${(shift * 1.3).toFixed(1)}px)` });
+    const sp = E.outBack(prog(t, K.hadis + 0.2, K.hadis + 0.8));
+    SEAL.rot.setAttribute('transform', `rotate(${(t * 12 % 360).toFixed(1)}) scale(${sp.toFixed(3)})`);
+    SEAL.ck.setAttribute('stroke-dashoffset', (SEAL.L * (1 - E.outCubic(prog(t, K.hadis + 0.45, K.hadis + 0.85)))).toFixed(2));
+  }
+
+  /* ---------- 4. HADIS ---------- */
+  if (sceneVisible('hadis', t)) {
+    const OUT = 15.6;
+    anim($('hd-head'), t, 9.28, { dur: 0.6, dy: 24, blur: 8, out: OUT, odur: 0.4 });
+    anim($('hd-card'), t, 9.35, { dur: 0.7, dy: 50, blur: 10, s0: 0.95, out: OUT + 0.02, odur: 0.42 });
+    anim($('hd-intro'), t, 9.5, { dur: 0.6, dy: 14, blur: 6, oMul: lerp(1, 0.7, prog(t, 10.2, 10.8)) });
+    doaLine($('hd-r1'), t, K.r1 + 0.25, K.r1 + 0.3, K.diberi + 0.4, K.r2, 0.25);
+    doaLine($('hd-r2'), t, K.r2, K.r2 + 0.05, K.dikabulkan + 0.6, OUT + 0.5, 0.25);
+    stampAnim($('hd-s1'), t, K.diberi, null);
+    stampAnim($('hd-s2'), t, K.dikabulkan, null);
+    anim($('hd-ref'), t, 10.2, { dur: 0.6, dy: 12, blur: 4 });
+    drawBurst(fx, t, K.diberi + 0.15, 540, 430 + 568, BURST_S1, 90);
+    drawBurst(fx, t, K.dikabulkan + 0.15, 540, 430 + 898, BURST_S2, 90);
+  }
+
+  /* ---------- 5. STEP 1 ---------- */
+  if (sceneVisible('step1', t)) {
+    sceneFade('step1', t, 17.85, 0.42);
+    anim($('s1-head'), t, 15.6, { dur: 0.5, dy: 16, blur: 6 });
+    anim($('s1-title'), t, K.sebelum, { dur: 0.6, dy: 30, blur: 10, s0: 0.94 });
+    anim($('m-s2'), t, K.sebelum + 0.3, { dur: 0.7, dy: 0, blur: 8, s0: 0.3, ease: E.outBack, oMul: lerp(1, 0.45, prog(t, K.baca, K.baca + 0.4)) });
+    anim($('l-s2'), t, K.sebelum + 0.45, { dur: 0.5, dy: 16, blur: 6, oMul: lerp(1, 0.45, prog(t, K.baca, K.baca + 0.4)) });
+    const hit = E.outBack(prog(t, K.baca, K.baca + 0.6));
+    anim($('m-s1'), t, K.sebelum + 0.55, { dur: 0.7, dy: 0, blur: 8, s0: 0.3, ease: E.outBack, sMul: 1 + 0.12 * hit });
+    anim($('l-s1'), t, K.sebelum + 0.7, { dur: 0.5, dy: 16, blur: 6 });
+    medalFX('m-s1', t); medalFX('m-s2', t);
+    $('m-s1').querySelector('.mglow').setAttribute('opacity', (0.6 + 0.4 * hit + 0.2 * Math.sin(t * 3)).toFixed(3));
+    const pp = E.inOutCubic(prog(t, K.sebelum + 0.9, K.sebelum + 1.6));
+    S1P.p.setAttribute('stroke-dashoffset', (S1P.L * (1 - pp)).toFixed(2));
+    S1P.head.setAttribute('opacity', clamp(pp * 3 - 2).toFixed(3));
+    S1P.p.parentNode.style.opacity = clamp(prog(t, K.sebelum + 0.5, K.sebelum + 0.9)).toFixed(3);
+    stampAnim($('s1-first'), t, K.baca + 0.15, null);
+    drawBurst(fx, t, K.baca + 0.05, 310, 900, BURST_S1, 60);
+  }
+
+  /* ---------- 6. ZIKIR ---------- */
+  if (sceneVisible('zikir', t)) {
+    const OUT = 28.55;
+    anim($('z-head'), t, 17.9, { dur: 0.6, dy: 24, blur: 8, out: OUT, odur: 0.4 });
+    anim($('z-card'), t, 17.95, { dur: 0.7, dy: 50, blur: 10, s0: 0.95, out: OUT + 0.02, odur: 0.42 });
+    anim($('z-ref'), t, 18.9, { dur: 0.6, dy: 12, blur: 4 });
+    const ids = ['z-l1', 'z-l2', 'z-l3', 'z-l4'];
+    K.z.forEach(([a, b], i) => {
+      const next = i + 1 < K.z.length ? K.z[i + 1][0] : OUT + 0.5;
+      const pre = 0.22 * E.outCubic(prog(t, 18.3 + i * 0.12, 18.9 + i * 0.12));
+      doaLine($(ids[i]), t, a, a + 0.05, b - 0.1, next, pre);
+    });
+  }
+
+  /* ---------- 7. STEP 2 ---------- */
+  if (sceneVisible('step2', t)) {
+    sceneFade('step2', t, 33.55, 0.4);
+    anim($('s2-kick'), t, K.setelah, { dur: 0.55, dy: -20, blur: 6 });
+    // "setelah membaca zikir tadi": finished tasbih with a check, gives way to the title
+    anim($('s2-zk'), t, K.setelah + 0.15, { dur: 0.7, dy: 0, blur: 8, s0: 0.4, ease: E.outBack, out: K.panjatkan - 0.3, odur: 0.35, dyOut: -40 });
+    S2ZK.star.setAttribute('transform', `rotate(${(t * 10) % 360} 150 150)`);
+    const zkLit = Math.floor(clamp((t - K.setelah - 0.4) / 1.1) * S2ZK.beads.length);
+    S2ZK.beads.forEach((b, i) => { b.style.opacity = i < zkLit ? 1 : 0.35; });
+    anim($('s2-zk-ck'), t, 29.8, { dur: 0.5, dy: 0, blur: 4, s0: 0.2, ease: E.outBack });
+    const amin = E.inOutCubic(prog(t, K.semoga - 0.05, K.semoga + 0.4));
+    const tOut = K.semoga - 0.1;
+    anim($('s2-t1'), t, K.panjatkan - 0.1, { dur: 0.55, dy: 30, blur: 10, s0: 0.9, out: tOut, odur: 0.35 });
+    anim($('s2-t2'), t, K.hajat - 0.25, { dur: 0.7, dy: 0, blur: 18, s0: 1.3, ease: E.outExpo, out: tOut + 0.03, odur: 0.35 });
+    anim($('s2-amin'), t, K.semoga + 0.35, { dur: 0.8, dy: 20, blur: 12, s0: 1.2, ease: E.outExpo });
+    $('s2-amin').style.clipPath = `inset(-80px ${((1 - E.inOutCubic(prog(t, K.semoga + 0.35, K.semoga + 1.0))) * 100).toFixed(2)}% -80px 0)`;
+    anim($('s2-semoga'), t, K.semoga + 0.55, { dur: 0.6, dy: 16, blur: 6 });
+    // hands rise, beam, orbs
+    const hp = E.outCubic(prog(t, 28.9, 29.8));
+    const bob = Math.sin(t * 1.8) * 4;
+    S2HANDS.setAttribute('transform', `translate(540,${(1400 + (1 - hp) * 260 + bob).toFixed(1)}) scale(1.0)`);
+    S2HANDS.setAttribute('opacity', hp.toFixed(3));
+    S2HANDS.querySelector('.hglow').setAttribute('opacity', (0.5 + 0.3 * Math.sin(t * 2.4) + 0.4 * prog(t, K.panjatkan, K.panjatkan + 0.5)).toFixed(3));
+    const beam = E.outCubic(prog(t, K.panjatkan - 0.2, K.panjatkan + 0.6)) * (1 - 0.4 * amin);
+    fxb.save(); fxb.globalAlpha = 1 - E.inCubic(prog(t, 33.55, 33.95));
+    drawBeam(fxb, t, beam);
+    fxb.restore();
+    fx.save(); fx.globalAlpha = 1 - E.inCubic(prog(t, 33.55, 33.95));
+    drawOrbs(fx, t);
+    drawBurst(fx, t, K.semoga + 0.6, 540, 560, BURST_AMIN, 60);
+    fx.restore();
+  }
+
+  /* ---------- 8. SHARE / KOMEN / DM ---------- */
+  if (sceneVisible('cta', t)) {
+    anim($('c-share'), t, K.share, { dur: 0.6, dy: 0, blur: 12, s0: 1.25, ease: E.outExpo });
+    const ic = $('c-share-ic');
+    const wig = bump(t, K.share + 0.3, K.share + 0.9);
+    ic.style.transform = `rotate(${(-10 * wig).toFixed(2)}deg) scale(${(1 + 0.1 * wig).toFixed(3)})`;
+    anim($('c-kom-kick'), t, K.komen - 0.05, { dur: 0.5, dy: 0, blur: 6, s0: 1 });
+    growLines($('c-kom-kick'), t, K.komen - 0.05, K.komen + 0.5);
+    anim($('c-bubble'), t, K.komen, { dur: 0.6, dy: 40, blur: 8, s0: 0.85, ease: E.outBack });
+    const typed = Math.floor(clamp((t - K.doaKomen) / 0.12, 0, 3));
+    $('c-typed').textContent = 'DOA'.slice(0, typed) || '​';
+    $('c-caret').style.opacity = (Math.floor(t * 2.5) % 2 === 0 || t < K.doaKomen + 0.4) ? 1 : 0;
+    anim($('c-doc'), t, K.teks - 0.05, { dur: 0.7, dy: 50, blur: 10, s0: 0.92 });
+    anim($('c-chip1'), t, K.arab, { dur: 0.5, dy: 0, blur: 4, s0: 0.4, ease: E.outBack });
+    anim($('c-chip2'), t, K.artinya, { dur: 0.5, dy: 0, blur: 4, s0: 0.4, ease: E.outBack });
+    anim($('c-dm'), t, K.dm - 0.1, { dur: 0.6, dy: 30, blur: 8, s0: 0.8, ease: E.outBack });
+    const land = K.dm + 0.45;
+    const hitP = bump(t, land, land + 0.5);
+    $('c-dm-ic').style.transform = `scale(${(1 + 0.14 * hitP).toFixed(3)})`;
+    const bp = E.outBack(prog(t, land + 0.05, land + 0.45));
+    $('c-badge').style.transform = `scale(${bp.toFixed(3)})`;
+    $('c-badge').style.opacity = clamp(bp * 2).toFixed(3);
+    // paper plane: from the doc card to the DM icon
+    const pp = prog(t, K.dm + 0.05, land);
+    const P0 = [560, 1150], C1 = [640, 900], P1 = [850, 1110];
+    const bez = (k) => [(1 - k) * (1 - k) * P0[0] + 2 * (1 - k) * k * C1[0] + k * k * P1[0], (1 - k) * (1 - k) * P0[1] + 2 * (1 - k) * k * C1[1] + k * k * P1[1]];
+    const e = E.inOutSine(pp);
+    const [px, py] = bez(e);
+    const [qx, qy] = bez(Math.min(1, e + 0.02));
+    const ang = Math.atan2(qy - py, qx - px) * 180 / Math.PI + 20;
+    const pa = (pp > 0 && pp < 1) ? 1 : 0;
+    PLANE.g.setAttribute('transform', `translate(${px.toFixed(1)},${py.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(${lerp(1.3, 0.7, e).toFixed(3)})`);
+    PLANE.g.setAttribute('opacity', pa);
+    if (pp > 0) {
+      const pts = []; for (let k = 0; k <= 20; k++) { const q = bez(e * k / 20); pts.push(q[0].toFixed(1) + ',' + q[1].toFixed(1)); }
+      PLANE.trail.setAttribute('d', 'M' + pts.join(' L'));
+      PLANE.trail.setAttribute('opacity', (0.8 * (1 - prog(t, land, land + 0.5))).toFixed(3));
+    } else PLANE.trail.setAttribute('opacity', 0);
+    drawBurst(fx, t, land, 850, 1110, BURST_DM, 80);
+  }
+
+  renderSubs(t);
+}
+
+window.renderAt = renderAt;
+window.DURATION = DURATION;
+(async () => {
+  await document.fonts.load("700 40px Poppins"); await document.fonts.load("900 40px Poppins"); await document.fonts.load("800 40px Poppins");
+  await document.fonts.load("600 40px Poppins"); await document.fonts.load("500 40px Poppins");
+  await document.fonts.load("700 40px Amiri", "اللَّهُمَّ ﷺ"); await document.fonts.load("400 40px Amiri", "اللَّهُمَّ");
+  await document.fonts.load("700 40px 'Aref Ruqaa'", "آمِين");
+  await document.fonts.ready;
+  fitAll();
+  renderAt(0);
+  window.__ready = true;
+  const q = new URLSearchParams(location.search);
+  if (q.has('t')) renderAt(parseFloat(q.get('t')));
+  if (q.has('play')) {
+    const t0 = performance.now();
+    const loop = () => { const t = (performance.now() - t0) / 1000 % DURATION; renderAt(t); requestAnimationFrame(loop); };
+    loop();
+  }
+})();
+</script>
+</body>
+</html>
